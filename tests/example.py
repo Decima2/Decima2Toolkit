@@ -9,11 +9,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
 
 from sklearn.datasets import make_classification, make_regression
-
-
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.optimizers import Adam
 from sklearn.preprocessing import StandardScaler
 
 

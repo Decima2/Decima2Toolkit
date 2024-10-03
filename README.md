@@ -9,7 +9,7 @@
 Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools designed to empower developers with the insights needed to effectively evaluate and enhance machine learning models. Our toolkit focuses on making complex concepts in machine learning intuitive and accessible, allowing users to derive meaningful insights without the steep learning curve often associated with advanced analytics.
 
 <p align="center">
-  <img src="images/example/logo.svg" width="800" />
+  <img src="images/example.svg" width="800" />
 </p>
 
 ## Installation
@@ -64,13 +64,13 @@ explanation_app.run_server()
 ##### Generate Explanations and View Via Static Graph
 
 <pre>
-explanation_plot = explanations.model_explanations(X_test,y_test,model,output='static')
+explanation_plot = model_explanations(X_test,y_test,model,output='static')
 </pre>
 
 ##### Generate Explanations and View Via Text
 
 <pre>
-explanations = explanations.model_explanations(X_test,y_test,model,output='text')
+explanations = model_explanations(X_test,y_test,model,output='text')
 print(explanations)
 </pre>
 
