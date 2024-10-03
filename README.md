@@ -1,13 +1,15 @@
 
 # Decima2 AI Evaluation Toolkit
 
+<p align="center">
+  <img src="images/logo.svg" width="800" />
+</p>
 
 ## Introduction
 Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools designed to empower developers with the insights needed to effectively evaluate and enhance machine learning models. Our toolkit focuses on making complex concepts in machine learning intuitive and accessible, allowing users to derive meaningful insights without the steep learning curve often associated with advanced analytics.
 
 <p align="center">
-  <img src="images/logo.svg" width="800" />
-  <img src="images/example/logo.png" width="800" />
+  <img src="images/example/logo.svg" width="800" />
 </p>
 
 ## Installation
@@ -31,7 +33,7 @@ Gain insights into how your models make predictions with clear, interpretable vi
 #### Usage
 Here’s a quick example of how to use the package to evaluate a machine learning model and compute feature importances.
 
-#### Example
+#### Example
 ##### Load Data and Train Your Model 
 <pre>
 import pandas as pd
@@ -72,7 +74,7 @@ explanations = explanations.model_explanations(X_test,y_test,model,output='text'
 print(explanations)
 </pre>
 
-### Fairness Module: Coming Soon
+### Fairness Module: Coming Soon
 Evaluate your models for bias and ensure equitable treatment across different demographic groups, supporting ethical AI practices in your organization.
 
 ### Robustness Evaluation: Coming Soon 
@@ -91,5 +93,5 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ## Contributing
 Contributions are welcome! Please create a pull request or open an issue for any improvements, bugs, or feature requests.
 
-## Contact
+## Contact
 For inquiries, please reach out to tortysivill@decima2.co.uk
