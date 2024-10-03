@@ -17,7 +17,7 @@ Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools 
 You can install the package using pip:
 
 <pre>
-pip install decima2
+pip install git+https://github.com/TortySivill/Decima2Toolkit/
 </pre>
 
 
