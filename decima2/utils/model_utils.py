@@ -4,8 +4,8 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, r2_score
 
 from torch.nn import Module
-from tensorflow.keras import Model
-from tensorflow.keras import Sequential
+from keras import Model
+from keras import Sequential
 
 """
 Module: model_evaluator

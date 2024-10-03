@@ -11,12 +11,11 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.datasets import make_classification, make_regression
 
 
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.optimizers import Adam
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.optimizers import Adam
 from sklearn.preprocessing import StandardScaler
 
-from tensorflow import keras
 
 
 import torch
