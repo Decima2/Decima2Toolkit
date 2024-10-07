@@ -79,17 +79,17 @@ def feature_importance(model_evaluator, X, X_d, y):
 
         # Copy the original data and permute the feature
         X_intervened = X_d.copy()
+
         X_intervened[col] = (X_intervened[col] + 1) % len(feature_names)
 
         # Get most similar data points
         most_similar_datapoints = public_model_explanation(X_d.values, X_intervened.values, i)
 
-
         most_similar_datapoints = np.asarray(most_similar_datapoints)
 
         # Get realistic samples
         X_realistic = X.iloc[most_similar_datapoints]
-
+        
         # Compute the new score
         new_score = model_evaluator.evaluate(X_realistic, y)
 
