@@ -23,7 +23,7 @@ import torch.nn as nn
 import torch.optim as optim
 
 
-print("Adult dataset, RFC from scikit learn")
+"""print("Adult dataset, RFC from scikit learn")
 X_adult, y_adult = shap.datasets.adult()
 X_train1, X_test1, y_train1, y_test1 = train_test_split(X_adult, y_adult, test_size=0.20, random_state=42)
 model1 = RandomForestClassifier(max_depth=100, random_state=42)
@@ -36,7 +36,7 @@ model1.fit(X_train1, y_train1)
 explanation_app = explanations.model_explanations(X_test1,y_test1,model1)
 print("got app back")
 if __name__ == '__main__':
-    explanation_app.run_server()
+    explanation_app.run_server()"""
 
 ##########################################################################################################################################
 
@@ -92,14 +92,14 @@ if __name__ == '__main__':
 
 ##########################################################################################################################################
 
-"""print("keras_classification_model")
+print("keras_classification_model")
 
 # Set random seed for reproducibility
 np.random.seed(42)
 
 # Parameters
 num_samples = 1000
-num_features = 20
+num_features = 10
 
 # Generate random features
 X_classification = np.random.rand(num_samples, num_features)
@@ -133,7 +133,7 @@ def train_keras_classification_model(X, y):
     # Train the model
     model.fit(X_train_scaled, y_train, epochs=10, batch_size=32, verbose=0)
 
-    num_features = 20
+    num_features = 10
     X_scaled_df = pd.DataFrame(X_test_scaled, columns=[f'Feature_{i+1}' for i in range(num_features)])
     
     return model, X_scaled_df, y_test
@@ -148,7 +148,7 @@ keras_classification_model, X_keras_classification_test, y_keras_classification_
 explanation_app = explanations.model_explanations(X_keras_classification_test, y_keras_classification_test,keras_classification_model)
 print("got app back")
 if __name__ == '__main__':
-    explanation_app.run_server()"""
+    explanation_app.run_server()
 
 
 ##########################################################################################################################################
