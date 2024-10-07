@@ -198,7 +198,7 @@ def assert_size(df,y):
         if df.shape[0]/df.shape[1] < 20:
             warnings.warn("Reccommend using a model with less features to obtain meaningful explanations", UserWarning)
 
-    elif df.shape[0]/df.shape[1] < :
+    elif df.shape[0]/df.shape[1] < 20:
         warnings.warn("Increase the number of test instances to increase the reliability of feature importances ", UserWarning)
 
     return df, y
