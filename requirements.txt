@@ -7,3 +7,5 @@ scikit_learn==1.5.2
 setuptools==58.0.4
 shap==0.46.0
 torch==2.4.0
+keras==3.0
+tensorflow>=2.16

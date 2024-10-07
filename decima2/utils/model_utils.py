@@ -4,6 +4,8 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, r2_score
 
 from torch.nn import Module
+from tensorflow.keras import Model
+from tensorflow.keras import Sequential
 
 """
 Module: model_evaluator
@@ -96,7 +98,7 @@ print("Accuracy:", accuracy)
 
 
 class ModelEvaluator:
-    def __init__(self, model, problem_type='classification', is_pytorch_model=False):
+    def __init__(self, model, problem_type='classification', is_pytorch_model=False, is_keras_model=False):
         """
         Initialize the evaluator with the model and problem type.
 
@@ -109,6 +111,7 @@ class ModelEvaluator:
         self.model = model
         self.problem_type = problem_type
         self.is_pytorch_model = isinstance(model, Module)
+        self.is_keras_model = isinstance(model, (Model, Sequential))
         self.metric = 'accuracy'
 
     def evaluate(self, X_test, y_test):
@@ -121,6 +124,9 @@ class ModelEvaluator:
         """
         if self.is_pytorch_model:
             return self._evaluate_pytorch_model(X_test, y_test)
+        
+        elif self.is_keras_model:
+            return self._evaluate_keras_model(X_test, y_test)
         
         
         elif hasattr(self.model, 'score'):
@@ -199,4 +205,27 @@ class ModelEvaluator:
                 y_pred = y_pred_tensor.cpu().numpy()
                 return r2_score(y_test_tensor.cpu().numpy(), y_pred)
 
-    
+    def _evaluate_keras_model(self, X_test, y_test):
+        """
+        Evaluate a Keras model on the given test set (X_test, y_test).
+
+        :param X_test: Features of the test set (numpy array or DataFrame).
+        :param y_test: Labels/targets of the test set (numpy array).
+        :return: A score or metric depending on the problem type.
+        """
+        if isinstance(X_test, pd.DataFrame):
+            X_test = X_test.values  # Convert DataFrame to numpy array
+
+        predictions = self.model.predict(X_test)
+
+        if self.problem_type == 'classification':
+            if predictions.ndim > 1 and predictions.shape[1] > 1:
+                predictions = predictions.argmax(axis=1)
+            else:
+                predictions = (predictions >= 0.5).astype(int)  # Binary classification
+            
+            return accuracy_score(y_test, predictions)
+        
+        elif self.problem_type == 'regression':
+            self.metric = 'r2 score'
+            return r2_score(y_test, predictions)
