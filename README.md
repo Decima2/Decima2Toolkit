@@ -114,16 +114,20 @@ explanations = model_explanations(X_test,y_test,model,output='text')
 print(explanations)
 </pre>
 
-## Fairness Module: Coming Soon
+## Fairness
+### Coming Soon
 Evaluate your models for bias and ensure equitable treatment across different demographic groups, supporting ethical AI practices in your organization.
 
-## Robustness: Coming Soon 
+## Robustness
+### Coming Soon 
 Test your models against various perturbations to understand their stability and reliability in real-world applications.
 
-## Uncertainty Quantification: Coming Soon 
+## Uncertainty Quantification
+### Coming Soon 
 Assess the uncertainty in your model predictions to make informed decisions, especially in high-stakes environments.
 
-## Causal Reasoning: Coming Soon 
+## Causal Reasoning
+### Coming Soon 
 Implement algorithms that help identify causal relationships in your data
 
 
