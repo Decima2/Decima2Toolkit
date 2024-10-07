@@ -40,13 +40,13 @@ pip install git+https://github.com/TortySivill/Decima2Toolkit/
 Gain insights into how your models make predictions with clear, interpretable visualizations and explanations, making it easier to communicate results. 
 
 
-### Model Summmary Explanations
+### Model Summary Explanations
 
-### Usage
+#### Usage
 Here’s a quick example of how to use the package to evaluate a machine learning model and compute feature importances.
 
-### Example
-#### Load Data and Train Your Model 
+#### Example
+##### Load Data and Train Your Model 
 <pre>
 import pandas as pd
 import numpy as np
@@ -66,7 +66,7 @@ model.fit(X_train, y_train)
 </pre>
 
 
-### Call Model Explanation Function:
+#### Call Model Explanation Function:
 -----------
 model_explanations(X, y, model, output='dynamic'):
     Generates explanations for the provided model, which can be returned as text, static image, or interactive app.
@@ -93,7 +93,7 @@ model_explanations(X, y, model, output='dynamic'):
       - An interactive Dash app for exploring feature importances dynamically.
 </pre>
 
-#### Generate Explanations and View Via Interactive App
+##### Generate Explanations and View Via Interactive App
 
 <pre>
 explanation_app = model_explanations(X_test,y_test,model,output='dynamic')
@@ -101,13 +101,13 @@ explanation_app.run_server()
 </pre>
 
 
-#### Generate Explanations and View Via Static Graph
+##### Generate Explanations and View Via Static Graph
 
 <pre>
 explanation_plot = model_explanations(X_test,y_test,model,output='static')
 </pre>
 
-#### Generate Explanations and View Via Text
+##### Generate Explanations and View Via Text
 
 <pre>
 explanations = model_explanations(X_test,y_test,model,output='text')
