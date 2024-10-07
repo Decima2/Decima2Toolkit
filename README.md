@@ -22,10 +22,6 @@ Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools 
 8. [Contributing](#contributing)
 9. [Contact](#contact)
 
-<p align="center">
-  <img src="images/example.png" width="800" />
-</p>
-
 ## Installation
 
 You can install the package using pip:
@@ -41,6 +37,10 @@ Gain insights into how your models make predictions with clear, interpretable vi
 
 
 ### Model Summary Explanations
+
+<p align="center">
+  <img src="images/example.png" width="800" />
+</p>
 
 #### Usage
 Here’s a quick example of how to use the package to evaluate a machine learning model and compute feature importances.
