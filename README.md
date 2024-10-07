@@ -68,9 +68,9 @@ model.fit(X_train, y_train)
 
 #### Call Model Explanation Function:
 -----------
+<pre>
 model_explanations(X, y, model, output='dynamic'):
     Generates explanations for the provided model, which can be returned as text, static image, or interactive app.
-<pre>
     Parameters:
     -----------
     - X: pandas DataFrame
