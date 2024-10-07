@@ -187,10 +187,10 @@ def determine_target_type_valid(y):
 def assert_size(df,y):
 
 
-    if int(df.shape[0]) * int(df.shape[1]) > 100000:
+    if int(df.shape[0]) * int(df.shape[1]) > 10000:
         warnings.warn("The dataset passed may require a long computation time. Automatically adjusting size of reference set", UserWarning)
 
-        new_row_dimension_1 = int(100000/df.shape[1])
+        new_row_dimension_1 = int(10000/df.shape[1])
         new_row_dimension_2 = int(df.shape[1]*50)
         new_row_dimension = min(new_row_dimension_1,new_row_dimension_2)
         df = df[:new_row_dimension]
@@ -198,7 +198,7 @@ def assert_size(df,y):
         if df.shape[0]/df.shape[1] < 20:
             warnings.warn("Reccommend using a model with less features to obtain meaningful explanations", UserWarning)
 
-    elif df.shape[0]/df.shape[1] < 20:
+    elif df.shape[0]/df.shape[1] < :
         warnings.warn("Increase the number of test instances to increase the reliability of feature importances ", UserWarning)
 
     return df, y
