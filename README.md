@@ -52,7 +52,7 @@ import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
-from decima2.explanations import model_explanations
+from decima2.explanation.explanations import model_explanations
 
 # Load your dataset
 df = pd.read_csv('your_dataset.csv')
@@ -119,7 +119,7 @@ print(explanations)
 Evaluate your models for bias and ensure equitable treatment across different demographic groups, supporting ethical AI practices in your organization.
 
 ## Robustness
-### Coming Soon 
+### Coming Soon 
 Test your models against various perturbations to understand their stability and reliability in real-world applications.
 
 ## Uncertainty Quantification

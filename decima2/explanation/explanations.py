@@ -81,7 +81,6 @@ def model_explanations(X,y,model,output='dynamic'):
 	model_evaluator = model_utils.ModelEvaluator(model, problem_type=problem_type)
 	#this calculates feature importance
 	importances = feature_importance.feature_importance(model_evaluator, X_adjusted, X_d, y_adjusted)
-	print(importances)
 	list_importances = list(importances.values())
 
 	if all(x == 0 for x in list_importances):
