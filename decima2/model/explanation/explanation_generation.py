@@ -1,6 +1,6 @@
 
 from decima2.utils import data_utils
-from decima2.explanation import explanation_calculation as feature_importance
+from decima2.model.explanation import explanation_calculation
 from decima2.visualisation import visualisation_explanation
 from decima2.utils import utils
 from decima2.utils import model_utils 
@@ -74,13 +74,13 @@ print(text_summary)
 """
 
 
-def model_explanations(X,y,model,output='dynamic'):
+def model_explanation(X,y,model,output='dynamic'):
 	# this validates dataframe and returns a binarised interpretable dataframe upon which we perform our interventions
 	X_d, X_adjusted, y_adjusted = data_utils.data_discretiser(X,y)
 	problem_type = data_utils.determine_target_type_valid(y_adjusted)
 	model_evaluator = model_utils.ModelEvaluator(model, problem_type=problem_type)
 	#this calculates feature importance
-	importances = feature_importance.feature_importance(model_evaluator, X_adjusted, X_d, y_adjusted)
+	importances = explanation_calculation.feature_importance(model_evaluator, X_adjusted, X_d, y_adjusted)
 	list_importances = list(importances.values())
 
 	if all(x == 0 for x in list_importances):
@@ -103,7 +103,7 @@ def model_explanations(X,y,model,output='dynamic'):
 		importances = [round(x,3) for x in list_importances]
 		original_accuracy = model_evaluator.evaluate(X_adjusted,y_adjusted)
 		sorted_importances, sorted_features = utils.sort_features_by_importance(importances,features)
-		fig = visualisation.create_model_explanation_plot(sorted_features, sorted_importances, original_accuracy, model_evaluator.metric, sorted_features)
+		fig = visualisation_explanation.create_model_explanation_plot(sorted_features, sorted_importances, original_accuracy, model_evaluator.metric, sorted_features)
 		fig.show() 
 
 	else:
