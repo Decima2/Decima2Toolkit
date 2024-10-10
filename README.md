@@ -13,7 +13,7 @@ Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools 
 ## Table of Contents
 1. [Installation](#installation)
 2. [Model Tools](#model-tools)
-  2.1 [Model Explanation](#model-explanation)
+  2.1 [Model Feature Importance](#model-feature-importance)
 3. [Data Tools](#data-tools)
 4. [Outcome Tools](#outcome-tools)
 5. [License](#license)
@@ -34,14 +34,14 @@ pip install git+https://github.com/TortySivill/Decima2Toolkit/
 Gain insights into how your models make predictions with clear, interpretable visualizations and explanations, making it easier to communicate results. 
 
 
-### Model Explanation
+### Model Feature Importance
 
 <p align="center">
   <img src="images/example.png" width="800" />
 </p>
 
 #### Usage
-Here’s a quick example of how to use the package to evaluate a machine learning model and compute feature importances.
+Here’s a quick example of how to model_feature_importance to evaluate a machine learning model and compute feature importances.
 
 #### Example
 ##### Load Data and Train Your Model 
@@ -50,7 +50,7 @@ import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
-from decima2 import model_explanation
+from decima2 import model_feature_importance
 
 # Load your dataset
 df = pd.read_csv('your_dataset.csv')
@@ -64,10 +64,10 @@ model.fit(X_train, y_train)
 </pre>
 
 
-#### Call Model Explanation Function:
+#### Call Model Feature Importance:
 -----------
 <pre>
-model_explanation(X, y, model, output='dynamic'):
+model_feature_importance(X, y, model, output='dynamic'):
     Generates explanations for the provided model, which can be returned as text, static image, or interactive app.
     Parameters:
     -----------
@@ -94,7 +94,7 @@ model_explanation(X, y, model, output='dynamic'):
 ##### Generate Explanations and View Via Interactive App
 
 <pre>
-explanation_app = model_explanation(X_test,y_test,model,output='dynamic')
+explanation_app = model_feature_importance(X_test,y_test,model,output='dynamic')
 explanation_app.run_server()
 </pre>
 
@@ -102,13 +102,13 @@ explanation_app.run_server()
 ##### Generate Explanations and View Via Static Graph
 
 <pre>
-explanation_plot = model_explanation(X_test,y_test,model,output='static')
+explanation_plot = model_feature_importance(X_test,y_test,model,output='static')
 </pre>
 
 ##### Generate Explanations and View Via Text
 
 <pre>
-explanations = model_explanation(X_test,y_test,model,output='text')
+explanations = model_feature_importanceX_test,y_test,model,output='text')
 print(explanations)
 </pre>
 

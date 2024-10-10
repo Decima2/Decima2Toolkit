@@ -1,7 +1,7 @@
 
 from decima2.utils import data_utils
 from decima2.model.explanation import explanation_calculation
-from decima2.visualisation import visualisation_explanation
+from decima2.visualisation.model import visualisation_explanation
 from decima2.utils import utils
 from decima2.utils import model_utils 
 import warnings
@@ -74,13 +74,13 @@ print(text_summary)
 """
 
 
-def model_explanation(X,y,model,output='dynamic'):
+def model_feature_importance(X,y,model,output='dynamic'):
 	# this validates dataframe and returns a binarised interpretable dataframe upon which we perform our interventions
 	X_d, X_adjusted, y_adjusted = data_utils.data_discretiser(X,y)
 	problem_type = data_utils.determine_target_type_valid(y_adjusted)
 	model_evaluator = model_utils.ModelEvaluator(model, problem_type=problem_type)
 	#this calculates feature importance
-	importances = explanation_calculation.feature_importance(model_evaluator, X_adjusted, X_d, y_adjusted)
+	importances = explanation_calculation.model_feature_importance(model_evaluator, X_adjusted, X_d, y_adjusted)
 	list_importances = list(importances.values())
 
 	if all(x == 0 for x in list_importances):

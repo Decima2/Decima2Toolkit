@@ -48,7 +48,7 @@ Functions:
 
 
 
-def feature_importance(model_evaluator, X, X_d, y):
+def model_feature_importance(model_evaluator, X, X_d, y):
     """
     Computes the permutation feature importance for a given model and dataset.
 
@@ -83,7 +83,7 @@ def feature_importance(model_evaluator, X, X_d, y):
         X_intervened[col] = (X_intervened[col] + 1) % len(feature_names)
 
         # Get most similar data points
-        most_similar_datapoints = public_model_explanation(X_d.values, X_intervened.values, i)
+        most_similar_datapoints = public_model_feature_importance(X_d.values, X_intervened.values, i)
 
         most_similar_datapoints = np.asarray(most_similar_datapoints)
 
@@ -99,7 +99,7 @@ def feature_importance(model_evaluator, X, X_d, y):
     return importances
 
 
-def public_model_explanation(X_d=0,X_i=0,index=-1):
+def public_model_feature_importance(X_d=0,X_i=0,index=-1):
     # Public function that interacts with the Google Cloud Function
     try:
         # Send a POST request to the Google Cloud Function
