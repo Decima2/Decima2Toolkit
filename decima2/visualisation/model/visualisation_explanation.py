@@ -111,9 +111,9 @@ def create_model_explanation_plot(features, importances, original_accuracy, metr
 
     # Update layout with automatic y-axis scaling
     fig.update_layout(
-        title="feature importance",
-        xaxis_title="features",
-        yaxis_title=f"{metric} decrease if feature removed",
+        title="Feature Importance",
+        xaxis_title="=Features",
+        yaxis_title=f"{metric} Decrease If Feature Removed",
         plot_bgcolor='#2F4A6D',  # Background color
         paper_bgcolor='#2F4A6D',
         font=dict(color="white", family='Arial'),  # Set axis and title text color and font
@@ -148,7 +148,7 @@ def create_model_explanation_app(features,importances,original_accuracy,metric):
                 'overflow': 'hidden'  # Prevent overflow
             },
             children=[
-                html.P("feature selection", style={'fontFamily': 'Arial', 'padding-left': '5%', 'padding-right': '5%'}),
+                html.P("Feature Selection", style={'fontFamily': 'Arial', 'padding-left': '5%', 'padding-right': '5%'}),
                 dcc.Dropdown(
                     id='feature-dropdown',
                     options=[{'label': feature, 'value': feature} for feature in features],
@@ -163,10 +163,10 @@ def create_model_explanation_app(features,importances,original_accuracy,metric):
                     },
                     placeholder="Select features..."  # Optional placeholder text
                 ),
-                html.P("interpretation panel", style={'fontFamily': 'Arial', 'padding-left': '5%', 'padding-right': '5%'}),
+                html.P("Interpretation Panel", style={'fontFamily': 'Arial', 'padding-left': '5%', 'padding-right': '5%'}),
                 html.P(id='interpretation-text', 
                        style={'fontFamily': 'Arial', 'padding-left': '5%', 'padding-right': '5%', 'margin-top': '5%'},
-                       children=f"each feature importance corresponds to the decrease in {metric} which would happen if that feature was removed from the dataset - the greater the change in {metric}, the more important the feature is")
+                       children=f"Each feature importance corresponds to the decrease in {metric} which would happen if that feature was removed from the dataset. The greater the change in {metric}, the more important the feature is.")
                     
             ]
         )
@@ -184,7 +184,7 @@ def create_model_explanation_app(features,importances,original_accuracy,metric):
 )
     def update_chart(clickData, selected_features):
         nonlocal clicked_feature
-        interpretation_text = f"each feature importance corresponds to the decrease in {metric} which would happen if that feature was removed from the dataset - the greater the change in {metric}, the more important the feature is"
+        interpretation_text = f"Each feature importance corresponds to the decrease in {metric} which would happen if that feature was removed from the dataset. The greater the change in {metric}, the more important the feature is."
         
         # Convert features to a list if it is a pandas Index
         features_list = list(features)
@@ -206,7 +206,7 @@ def create_model_explanation_app(features,importances,original_accuracy,metric):
                     clicked_feature = None  # Reset clicked feature
                     opacity = [1] * len(selected_features)  # Reset opacity for all bars
 
-                interpretation_text = f"if the feature, {clicked_feature} was removed from the model, the {metric} would go from {round(original_accuracy,3)} to {round(original_accuracy - importances[features_list.index(clicked_feature)], 3)}" 
+                interpretation_text = f"If the feature, {clicked_feature} was removed from the model, the {metric} would go from {round(original_accuracy,3)} to {round(original_accuracy - importances[features_list.index(clicked_feature)], 3)}." 
                 
         # Filter the data based on selected features
         filtered_features = [f for f in selected_features if f in features_list]
@@ -227,9 +227,9 @@ def create_model_explanation_app(features,importances,original_accuracy,metric):
 
         # Update layout with automatic y-axis scaling
         fig.update_layout(
-            title="feature importance",
-            xaxis_title="features",
-            yaxis_title=f"{metric} decrease if feature removed",
+            title="Feature Importance",
+            xaxis_title="Features",
+            yaxis_title=f"{metric} Decrease If Feature Removed",
             plot_bgcolor='#2F4A6D',  # Background color
             paper_bgcolor='#2F4A6D',
             font=dict(color="white", family='Arial'),  # Set axis and title text color and font

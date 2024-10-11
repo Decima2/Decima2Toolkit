@@ -112,7 +112,7 @@ class ModelEvaluator:
         self.problem_type = problem_type
         self.is_pytorch_model = isinstance(model, Module)
         self.is_keras_model = isinstance(model, (Model, Sequential))
-        self.metric = 'accuracy'
+        self.metric = 'Accuracy'
 
     def evaluate(self, X_test, y_test):
         """
@@ -132,7 +132,7 @@ class ModelEvaluator:
         elif hasattr(self.model, 'score'):
             # For scikit-learn models or others that have a 'score' method
             if self.problem_type == 'regression':
-                self.metric = 'r2 score'
+                self.metric = 'R Squared Score'
 
             return self.model.score(X_test, y_test)
 
@@ -144,7 +144,7 @@ class ModelEvaluator:
             if isinstance(metric, list):
                 return metric[1]
             else:
-                self.metric = 'loss'
+                self.metric = 'Loss'
                 return metric
 
         
@@ -161,7 +161,7 @@ class ModelEvaluator:
             
             elif self.problem_type == 'regression':
                 # For regression problems, compute the R^2 or other relevant metrics
-                self.metric = 'r2 score'
+                self.metric = 'R Squared Score'
                 return r2_score(y_test, predictions)
         
         else:
@@ -201,7 +201,7 @@ class ModelEvaluator:
                 return accuracy_score(y_test_tensor.cpu().numpy(), y_pred)
             
             elif self.problem_type == 'regression':
-                self.metric = 'r2 score'
+                self.metric = 'R Squared Score'
                 y_pred = y_pred_tensor.cpu().numpy()
                 return r2_score(y_test_tensor.cpu().numpy(), y_pred)
 
@@ -227,5 +227,5 @@ class ModelEvaluator:
             return accuracy_score(y_test, predictions)
         
         elif self.problem_type == 'regression':
-            self.metric = 'r2 score'
+            self.metric = 'R Squared Score'
             return r2_score(y_test, predictions)
