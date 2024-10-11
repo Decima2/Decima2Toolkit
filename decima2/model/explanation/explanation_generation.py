@@ -79,7 +79,7 @@ def model_feature_importance(X,y,model,output='dynamic'):
 	X_d, X_adjusted,y_adjusted = data_utils.data_discretiser(X,y)
 	problem_type = data_utils.determine_target_type_valid(y_adjusted)
 	model_evaluator = model_utils.ModelEvaluator(model, problem_type=problem_type)
-	model_utils.valiate_model_dataframe(model_evaluator,X_adjusted,y_adjusted)
+	model_utils.validate_model_dataframe(model_evaluator,X_adjusted,y_adjusted)
 	#this calculates feature importance
 	importances = explanation_calculation.model_feature_importance(model_evaluator, X_adjusted, X_d, y_adjusted)
 	list_importances = list(importances.values())

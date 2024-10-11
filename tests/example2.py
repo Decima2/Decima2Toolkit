@@ -3,7 +3,6 @@ import pytest
 import pandas as pd
 import numpy as np
 from decima2.utils.data_utils  import (
-    target_handler,
     assert_size,
     data_discretiser,
     validate_target,

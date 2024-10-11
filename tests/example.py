@@ -1,4 +1,5 @@
 import shap
+import pytest 
 
 from decima2 import model_feature_importance
 import pandas as pd
@@ -23,20 +24,14 @@ import torch.nn as nn
 import torch.optim as optim
 
 
-"""print("Adult dataset, RFC from scikit learn")
-X_adult, y_adult = shap.datasets.adult()
-X_train1, X_test1, y_train1, y_test1 = train_test_split(X_adult, y_adult, test_size=0.20, random_state=42)
-model1 = RandomForestClassifier(max_depth=100, random_state=42)
-model1.fit(X_train1, y_train1)
+def test_RFC_scikit():
+    X_adult, y_adult = shap.datasets.adult()
+    X_train1, X_test1, y_train1, y_test1 = train_test_split(X_adult, y_adult, test_size=0.20, random_state=42)
+    model1 = RandomForestClassifier(max_depth=100, random_state=42)
+    model1.fit(X_train1, y_train1)
+    explanation = explanations.model_explanations(X_test1,y_test1,model1,output='text')
+    assert len(explanation)==len(X_test1.columns)
 
-
-#explanation_app = explanations.model_explanations(X_test1,y_test1,model1,output='text')
-#print(explanation_app)
-
-explanation_app = explanations.model_explanations(X_test1,y_test1,model1)
-print("got app back")
-if __name__ == '__main__':
-    explanation_app.run_server()"""
 
 ##########################################################################################################################################
 
