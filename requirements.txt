@@ -6,7 +6,7 @@ Requests<=2.32.3,>=2.20.0
 scikit_learn<=1.5.2,>=1.0
 setuptools>=58.0.4
 shap<=0.46.0,>=0.4.0
-torch==2.4.0
+torch<=2.4.0,>=1.13.0
 keras<=3.0,>=2.4.0
 tensorflow<=2.16,>2.10.0
 pytest==8.3.3
