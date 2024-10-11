@@ -337,11 +337,8 @@ def validate_dataframe(df, check_empty=True, check_column_types=True, check_dupl
         validation_result["errors"].append("The DataFrame columns do not match the data")
 
 
-    # check for non categorical or numerical columns 
 
-    elif 
-
-    # Check if columns are either categorical or continuous
+    # Check if columns are numerical
     elif check_column_types:
         invalid_columns = []
         for col in df.columns:

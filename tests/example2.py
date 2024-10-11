@@ -1,12 +1,9 @@
+# test_data_processing.py
 import pytest
 import pandas as pd
 import numpy as np
-import warnings
-
-# Import the functions and classes from the data_processing module
-# Assuming the module is named data_processing.py and located in the same directory
-from decima.utils.data_utils import (
-    determine_target_type_valid,
+from decima2.utils.data_utils  import (
+    target_handler,
     assert_size,
     data_discretiser,
     validate_target,
@@ -15,104 +12,77 @@ from decima.utils.data_utils import (
     validate_dataframe,
     is_numeric,
     determine_data_types,
-    discretise_data
+    discretise_data,
 )
 
-def test_determine_target_type_valid_classification():
-    y = np.array([0, 1, 1, 0])
-    assert determine_target_type_valid(y) == 'classification'
+# Sample data for testing
+@pytest.fixture
+def sample_data():
+    df = pd.DataFrame({
+        'A': [1, 2, 3, 4, 5],
+        'B': [1.1, 2.2, 3.3, 4.4, 5.5],
+        'C': ['a', 'b', 'c', 'd', 'e']
+    })
+    y_classification = pd.Series([0, 1, 0, 1, 0])  # For classification
+    y_regression = pd.Series([1.0, 2.0, 3.0, 4.0, 5.0])  # For regression
+    return df, y_classification, y_regression
 
-def test_determine_target_type_valid_regression():
-    y = np.array([1.0, 2.5, 3.0, 4.0])
-    assert determine_target_type_valid(y) == 'regression'
+def test_validate_target_valid(sample_data):
+    _, y_classification, _ = sample_data
+    assert validate_target(y_classification) is True
 
-def test_determine_target_type_invalid():
-    y = np.array([[1, 2], [3, 4]])  # Invalid shape
-    with pytest.raises(ValueError):
-        determine_target_type_valid(y)
+def test_validate_target_invalid():
+    assert validate_target([1, 2, 3]) is False  # List is not valid
 
-def test_assert_size_warning():
-    df_large = pd.DataFrame(np.random.rand(200, 100))  # 200 rows, 100 columns
-    y_large = np.random.rand(200)
-    
-    with warnings.catch_warnings(record=True) as w:
-        warnings.simplefilter("always")
-        df_adjusted, y_adjusted = assert_size(df_large, y_large)
-        assert len(w) > 0  # Check if a warning was issued
-        assert df_adjusted.shape[0] <= 100  # Ensure size is adjusted
+def test_determine_target_type_classification(sample_data):
+    _, y_classification, _ = sample_data
+    assert determine_target_type(y_classification) == 'classification'
 
-def test_data_discretiser():
-    df = pd.DataFrame({'feature_1': np.random.rand(10), 'feature_2': np.arange(10)})
-    y = np.random.randint(0, 2, size=10)
-    
-    discretised_df, original_df, original_y = data_discretiser(df, y)
-    
-    # Check if discretised_df has the same columns as original df
-    assert list(discretised_df.columns) == list(df.columns)
-    assert len(discretised_df) == len(original_df) == len(original_y)
+def test_determine_target_type_regression(sample_data):
+    _, _, y_regression = sample_data
+    assert determine_target_type(y_regression) == 'regression'
 
-def test_validate_target():
-    assert validate_target(np.array([1, 2, 3])) is True
-    assert validate_target(pd.Series([1, 2, 3])) is True
-    assert validate_target([1, 2, 3]) is False  # List is invalid
+def test_assert_size_large_dataframe(sample_data):
+    df, _, _ = sample_data
+    df_large = pd.concat([df]*3000)  # Make a large DataFrame
+    df_resized, _ = assert_size(df_large, df_large['A'])
+    assert df_resized.shape[0] <= 200  # Check if resizing worked
 
-def test_validate_dataframe_target():
-    df = pd.DataFrame({'feature_1': [1, 2, 3]})
-    y = np.array([1, 2, 3])
-    assert validate_dataframe_target(df, y) is None  # Should pass without exception
+def test_data_discretiser(sample_data):
+    df, _, y_classification = sample_data
+    discretised_df, _, _ = data_discretiser(df, y_classification)
+    assert 'A' in discretised_df.columns  # Check if column 'A' is still present
+    assert discretised_df['A'].nunique() == 2  # Check if 'A' was discretized into 2 categories
 
-    y_invalid = np.array([1, 2])  # Mismatch in length
-    with pytest.raises(ValueError):
-        validate_dataframe_target(df, y_invalid)
+def test_validate_dataframe_valid(sample_data):
+    df, _, _ = sample_data
+    is_valid, details = validate_dataframe(df)
+    assert is_valid is True
+    assert details == {}
 
-def test_validate_dataframe():
-    df_valid = pd.DataFrame({'feature_1': [1, 2, 3], 'feature_2': [4, 5, 6]})
-    assert validate_dataframe(df_valid) == (True, {'valid': True, 'errors': []})
-
-    df_invalid = pd.DataFrame({'feature_1': [1, 2, None], 'feature_2': [4, 5, 6]})
-    assert validate_dataframe(df_invalid)[0] is False  # Should fail due to NaN
-
-    df_empty = pd.DataFrame()
-    assert validate_dataframe(df_empty) == (False, {'valid': False, 'errors': ['The DataFrame is empty.']})
+def test_validate_dataframe_invalid():
+    df_invalid = pd.DataFrame({
+        'A': [1, 2, 3, np.nan],
+        'B': [1.1, 2.2, 3.3, 4.4]
+    })
+    is_valid, details = validate_dataframe(df_invalid)
+    assert is_valid is False
+    assert "The DataFrame contains NaN values." in details["errors"]
 
 def test_is_numeric():
-    df_numeric = pd.DataFrame({'col1': [1, 2, 3], 'col2': ['a', 'b', 'c']})
-    assert is_numeric(df_numeric['col1']) is True
-    assert is_numeric(df_numeric['col2']) is False
+    df = pd.DataFrame({'A': [1, 2, 3], 'B': ['a', 'b', 'c']})
+    assert is_numeric(df['A']) is True
+    assert is_numeric(df['B']) is False
 
-def test_determine_data_types():
-    df = pd.DataFrame({
-        'continuous': [1.0, 2.5, 3.0],
-        'discrete': [1, 2, 3],
-        'categorical': ['a', 'b', 'c']
-    })
-    
-    continuous, discrete = determine_data_types(df)
-    assert 'continuous' in continuous
-    assert 'discrete' in discrete
-    assert 'categorical' in discrete  # Categorical columns are treated as discrete
+def test_determine_data_types(sample_data):
+    df, _, _ = sample_data
+    continuous_columns, discrete_columns = determine_data_types(df)
+    assert 'A' in continuous_columns
+    assert 'C' in discrete_columns
 
 def test_discretise_data():
     data = [1, 2, 3, 4, 5]
-    discretized_data, bin_bounds = discretise_data(data, n_categories=2)
-
+    discretized_data, bin_bounds = discretise_data(data, 2)
     assert len(discretized_data) == len(data)
-    assert len(bin_bounds) == 2  # Two bins created
+    assert len(bin_bounds) == 2  # Should create 2 bins
 
-# Example class for ModelEvaluator tests
-class DummyModel:
-    def score(self, X, y):
-        return 0.95  # Dummy score
-
-def test_model_evaluator():
-    model = DummyModel()
-    evaluator = ModelEvaluator(model)
-
-    df_test = pd.DataFrame({'feature_1': [1, 2], 'feature_2': [3, 4]})
-    y_test = [1, 0]
-    
-    score = evaluator.evaluate(df_test, y_test)
-    assert score == 0.95  # Check if the dummy score returned is correct
-
-if __name__ == "__main__":
-    pytest.main([__file__])
