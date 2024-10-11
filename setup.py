@@ -21,8 +21,8 @@ setup(
     url='https://github.com/TortySivill/Decima2Toolkit',
     classifiers=[
         'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License',
+        'License :: MIT License',
         'Operating System :: OS Independent',
     ],
-    python_requires='<=3.12','>=3.6'
+    python_requires='<=3.12','>3.6'
 )
