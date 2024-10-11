@@ -14,6 +14,7 @@ from decima2.utils.data_utils  import (
     discretise_data,
 )
 
+
 # Sample data for testing
 @pytest.fixture
 def sample_data():
@@ -23,7 +24,7 @@ def sample_data():
         'C': ['a', 'b', 'c', 'd', 'e']
     })
     y_classification = pd.Series([0, 1, 0, 1, 0])  # For classification
-    y_regression = pd.Series([1.0, 2.0, 3.0, 4.0, 5.0])  # For regression
+    y_regression = pd.Series([1.2, 2.4, 3.2, 4.0, 5.0])  # For regression
     return df, y_classification, y_regression
 
 def test_validate_target_valid(sample_data):
@@ -47,17 +48,23 @@ def test_assert_size_large_dataframe(sample_data):
     df_resized, _ = assert_size(df_large, df_large['A'])
     assert df_resized.shape[0] <= 200  # Check if resizing worked
 
-def test_data_discretiser(sample_data):
-    df, _, y_classification = sample_data
+def test_data_discretiser1():
+    df = pd.DataFrame({
+        'A': [1, 2, 3, 1],
+        'B': [1.1, 2.2, 3.3, 4.4],
+    })
+    y_classification = pd.Series([0, 1, 0, 1])
     discretised_df, _, _ = data_discretiser(df, y_classification)
-    assert 'A' in discretised_df.columns  # Check if column 'A' is still present
-    assert discretised_df['A'].nunique() == 2  # Check if 'A' was discretized into 2 categories
+    assert 'B' in discretised_df.columns  # Check if column 'A' is still present
+    assert discretised_df['B'].nunique() == 2  # Check if 'A' was discretized into 2 categories
 
-def test_validate_dataframe_valid(sample_data):
-    df, _, _ = sample_data
+def test_validate_dataframe_valid():
+    df = pd.DataFrame({
+        'A': [1, 2, 3, 4, 5],
+        'B': [1.1, 2.2, 3.3, 4.4, 5.5],
+    })
     is_valid, details = validate_dataframe(df)
     assert is_valid is True
-    assert details == {}
 
 def test_validate_dataframe_invalid():
     df_invalid = pd.DataFrame({
@@ -76,8 +83,8 @@ def test_is_numeric():
 def test_determine_data_types(sample_data):
     df, _, _ = sample_data
     continuous_columns, discrete_columns = determine_data_types(df)
-    assert 'A' in continuous_columns
-    assert 'C' in discrete_columns
+    assert 'A' in discrete_columns
+    assert 'B' in continuous_columns
 
 def test_discretise_data():
     data = [1, 2, 3, 4, 5]

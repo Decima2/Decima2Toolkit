@@ -29,122 +29,148 @@ def test_RFC_scikit():
     X_train1, X_test1, y_train1, y_test1 = train_test_split(X_adult, y_adult, test_size=0.20, random_state=42)
     model1 = RandomForestClassifier(max_depth=100, random_state=42)
     model1.fit(X_train1, y_train1)
-    explanation = explanations.model_explanations(X_test1,y_test1,model1,output='text')
+    explanation = model_feature_importance(X_test1,y_test1,model1,output='text')
     assert len(explanation)==len(X_test1.columns)
 
+def test_RFR_scikit():
+    def generate_regression_data():
+        X_regression, y_regression = make_regression(
+            n_samples=500, n_features=10, n_targets=1, noise=0.1, random_state=42
+        )
+        X_regression_df = pd.DataFrame(X_regression, columns=[f"feature_{i}" for i in range(10)])
+        return X_regression_df, y_regression
 
-##########################################################################################################################################
+    # Example usage
+    X_regression, y_regression = generate_regression_data()
 
-"""print("Synthetic dataset, RFC from scikit learn")
+    X_train3, X_test3, y_train3, y_test3 = train_test_split(X_regression, y_regression, test_size=0.20, random_state=42)
+    model3 = RandomForestRegressor(max_depth=100, random_state=42)
+    model3.fit(X_train3, y_train3)
 
-n_features = 50
-# Generate a classification dataset
-def generate_classification_data():
-    X_classification, y_classification = make_classification(n_samples=80000, n_features=50, n_classes=2, random_state=42
-    )
-    X_classification_df = pd.DataFrame(X_classification, columns=[f"feature_{i}" for i in range(n_features)])
-    return X_classification_df, y_classification
+    explanation = model_feature_importance(X_test3,y_test3,model3,output='text')
+    assert len(explanation)==len(X_test3.columns)
 
+def test_keras_classification():
 
-X_classification, y_classification = generate_classification_data()
-X_train2, X_test2, y_train2, y_test2 = train_test_split(X_classification, y_classification, test_size=0.20, random_state=42)
-model2 = RandomForestClassifier(max_depth=100, random_state=42)
-print("abput to train")
-model2.fit(X_train2, y_train2)
-print("done training")
+    # Set random seed for reproducibility
+    np.random.seed(42)
 
-explanation_app = explanations.model_explanations(X_test2,y_test2,model2,output='static')
-print("got app back")
-explanation_app.run_server()
-
-##########################################################################################################################################
-
-print("Synthetic dataset, RFR from scikit learn")
-
-# Generate a regression dataset
-def generate_regression_data():
-    X_regression, y_regression = make_regression(
-        n_samples=500, n_features=10, n_targets=1, noise=0.1, random_state=42
-    )
-    X_regression_df = pd.DataFrame(X_regression, columns=[f"feature_{i}" for i in range(10)])
-    return X_regression_df, y_regression
-
-# Example usage
-X_regression, y_regression = generate_regression_data()
-
-X_train3, X_test3, y_train3, y_test3 = train_test_split(X_regression, y_regression, test_size=0.20, random_state=42)
-model3 = RandomForestRegressor(max_depth=100, random_state=42)
-model3.fit(X_train3, y_train3)
-
-#explanation_app = explanations.model_explanations(X_test1,y_test1,model1,output='text')
-#print(explanation_app)
-
-explanation_app = explanations.model_explanations(X_test3,y_test3,model3)
-print("got app back")
-if __name__ == '__main__':
-    explanation_app.run_server()"""
-
-
-##########################################################################################################################################
-
-print("keras_classification_model")
-
-# Set random seed for reproducibility
-np.random.seed(42)
-
-# Parameters
-num_samples = 1000
-num_features = 10
-
-# Generate random features
-X_classification = np.random.rand(num_samples, num_features)
-
-# Generate binary labels (0 or 1)
-# For example, using a simple rule: if the sum of features is above a threshold, label as 1
-Y_classification = (X_classification.sum(axis=1) > num_features / 2).astype(int)
-
-# Convert to DataFrame for better visualization
-X_class_df = pd.DataFrame(X_classification, columns=[f'Feature_{i+1}' for i in range(num_features)])
-Y_class_df = pd.Series(Y_classification, name='Target')
-
-
-
-def train_keras_classification_model(X, y):
-    X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2, random_state=42)
-    
-    # Scale the data
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-
-    # Build Keras model
-    model = Sequential([
-        Dense(64, activation='relu', input_shape=(X_train_scaled.shape[1],)),
-        Dense(1, activation='sigmoid')  # Binary classification
-    ])
-    
-    model.compile(optimizer=Adam(), loss='binary_crossentropy', metrics=['accuracy'])
-    
-    # Train the model
-    model.fit(X_train_scaled, y_train, epochs=10, batch_size=32, verbose=0)
-
+    # Parameters
+    num_samples = 1000
     num_features = 10
-    X_scaled_df = pd.DataFrame(X_test_scaled, columns=[f'Feature_{i+1}' for i in range(num_features)])
+
+    # Generate random features
+    X_classification = np.random.rand(num_samples, num_features)
+
+    # Generate binary labels (0 or 1)
+    # For example, using a simple rule: if the sum of features is above a threshold, label as 1
+    Y_classification = (X_classification.sum(axis=1) > num_features / 2).astype(int)
+
+    # Convert to DataFrame for better visualization
+    X_class_df = pd.DataFrame(X_classification, columns=[f'Feature_{i+1}' for i in range(num_features)])
+    Y_class_df = pd.Series(Y_classification, name='Target')
+
+
+    def train_keras_classification_model(X, y):
+        X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2, random_state=42)
+        
+        # Scale the data
+        scaler = StandardScaler()
+        X_train_scaled = scaler.fit_transform(X_train)
+        X_test_scaled = scaler.transform(X_test)
+
+        # Build Keras model
+        model = Sequential([
+            Dense(64, activation='relu', input_shape=(X_train_scaled.shape[1],)),
+            Dense(1, activation='sigmoid')  # Binary classification
+        ])
+        
+        model.compile(optimizer=Adam(), loss='binary_crossentropy', metrics=['accuracy'])
+        
+        # Train the model
+        model.fit(X_train_scaled, y_train, epochs=10, batch_size=32, verbose=0)
+
+        num_features = 10
+        X_scaled_df = pd.DataFrame(X_test_scaled, columns=[f'Feature_{i+1}' for i in range(num_features)])
+        
+        return model, X_scaled_df, y_test
+
+    # Train Keras classification model
+    keras_classification_model, X_keras_classification_test, y_keras_classification_test = train_keras_classification_model(X_class_df, Y_class_df)
+
+
+    #explanation_app = explanations.model_explanations(X_test1,y_test1,model1,output='text')
+    #print(explanation_app)
+
+    explanation = model_feature_importance(X_keras_classification_test, y_keras_classification_test,keras_classification_model,output='text')
+    #print("got app back")
+    #if __name__ == '__main__':
+    #    explanation_app.run_server()
+    assert len(explanation)==len(X_keras_classification_test.columns)
     
-    return model, X_scaled_df, y_test
 
-# Train Keras classification model
-keras_classification_model, X_keras_classification_test, y_keras_classification_test = train_keras_classification_model(X_class_df, Y_class_df)
+def test_keras_classification_samples_big():
+    print("in here")
+    # Set random seed for reproducibility
+    np.random.seed(42)
+
+    # Parameters
+    num_samples = 100000
+    num_features = 10
+
+    # Generate random features
+    X_classification = np.random.rand(num_samples, num_features)
+
+    # Generate binary labels (0 or 1)
+    # For example, using a simple rule: if the sum of features is above a threshold, label as 1
+    Y_classification = (X_classification.sum(axis=1) > num_features / 2).astype(int)
+
+    # Convert to DataFrame for better visualization
+    X_class_df = pd.DataFrame(X_classification, columns=[f'Feature_{i+1}' for i in range(num_features)])
+    Y_class_df = pd.Series(Y_classification, name='Target')
 
 
-#explanation_app = explanations.model_explanations(X_test1,y_test1,model1,output='text')
-#print(explanation_app)
+    def train_keras_classification_model(X, y):
+        X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2, random_state=42)
+        
+        # Scale the data
+        scaler = StandardScaler()
+        X_train_scaled = scaler.fit_transform(X_train)
+        X_test_scaled = scaler.transform(X_test)
 
-explanation_app = model_feature_importance(X_keras_classification_test, y_keras_classification_test,keras_classification_model,output='text')
-#print("got app back")
-#if __name__ == '__main__':
-#    explanation_app.run_server()
-print(explanation_app)
+        # Build Keras model
+        model = Sequential([
+            Dense(64, activation='relu', input_shape=(X_train_scaled.shape[1],)),
+            Dense(1, activation='sigmoid')  # Binary classification
+        ])
+        
+        model.compile(optimizer=Adam(), loss='binary_crossentropy', metrics=['accuracy'])
+        
+        # Train the model
+        model.fit(X_train_scaled, y_train, epochs=10, batch_size=32, verbose=0)
+
+        num_features = 10
+        X_scaled_df = pd.DataFrame(X_test_scaled, columns=[f'Feature_{i+1}' for i in range(num_features)])
+        
+        return model, X_scaled_df, y_test
+
+    # Train Keras classification model
+    keras_classification_model, X_keras_classification_test, y_keras_classification_test = train_keras_classification_model(X_class_df, Y_class_df)
+
+
+    #explanation_app = explanations.model_explanations(X_test1,y_test1,model1,output='text')
+    #print(explanation_app)
+
+    explanation = model_feature_importance(X_keras_classification_test, y_keras_classification_test,keras_classification_model,output='text')
+    #print("got app back")
+    #if __name__ == '__main__':
+    #    explanation_app.run_server()
+    assert len(explanation)==len(X_keras_classification_test.columns)
+    
+
+
+##########################################################################################################################################
+
 
 
 ##########################################################################################################################################
@@ -197,13 +223,13 @@ print(explanation_app)
 
 
 if __name__ == '__main__':
-    explanation_app.run_server()"""
+    explanation_app.run_server()
 
 
 ##########################################################################################################################################
 
 
-"""print("Torch model Regression")
+print("Torch model Regression")
 
 # Step 1: Generate synthetic data
 np.random.seed(42)  # For reproducibility

@@ -2,6 +2,8 @@ import pytest
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestRegressor
+
 from sklearn.metrics import accuracy_score, r2_score
 from sklearn.datasets import make_classification, make_regression
 import torch
@@ -17,6 +19,7 @@ from decima2.utils.model_utils import ModelEvaluator  # Adjust the import based 
 @pytest.fixture
 def sklearn_classification_model():
     X, y = make_classification(n_samples=100, n_features=20, n_classes=2, random_state=42)
+    X = pd.DataFrame(X, columns=[f"feature_{i}" for i in range(20)])
     model = LogisticRegression()
     model.fit(X, y)
     return model, X, y
@@ -26,7 +29,8 @@ def sklearn_classification_model():
 @pytest.fixture
 def sklearn_regression_model():
     X, y = make_regression(n_samples=100, n_features=20, random_state=42)
-    model = LogisticRegression()
+    X = pd.DataFrame(X, columns=[f"feature_{i}" for i in range(20)])
+    model = RandomForestRegressor()
     model.fit(X, y)
     return model, X, y
 
@@ -46,6 +50,7 @@ def pytorch_classification_model():
     model.train()  # Set model to training mode
 
     X, y = make_classification(n_samples=100, n_features=20, n_classes=2, random_state=42)
+
     X_tensor = torch.tensor(X, dtype=torch.float32)
     y_tensor = torch.tensor(y, dtype=torch.long)
 
@@ -59,6 +64,9 @@ def pytorch_classification_model():
         loss = criterion(outputs, y_tensor)
         loss.backward()
         optimizer.step()
+
+    X = pd.DataFrame(X, columns=[f"feature_{i}" for i in range(20)])
+
 
     return model, X, y
 
@@ -91,6 +99,9 @@ def pytorch_regression_model():
         loss = criterion(outputs, y_tensor.view(-1, 1))
         loss.backward()
         optimizer.step()
+
+
+    X = pd.DataFrame(X, columns=[f"feature_{i}" for i in range(20)])
 
     return model, X, y
 
