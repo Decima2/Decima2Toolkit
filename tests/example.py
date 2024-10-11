@@ -145,10 +145,11 @@ keras_classification_model, X_keras_classification_test, y_keras_classification_
 #explanation_app = explanations.model_explanations(X_test1,y_test1,model1,output='text')
 #print(explanation_app)
 
-explanation_app = model_feature_importance(X_keras_classification_test, y_keras_classification_test,keras_classification_model)
-print("got app back")
-if __name__ == '__main__':
-    explanation_app.run_server()
+explanation_app = model_feature_importance(X_keras_classification_test, y_keras_classification_test,keras_classification_model,output='text')
+#print("got app back")
+#if __name__ == '__main__':
+#    explanation_app.run_server()
+print(explanation_app)
 
 
 ##########################################################################################################################################

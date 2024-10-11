@@ -97,6 +97,12 @@ print("Accuracy:", accuracy)
 """
 
 
+def validate_model_dataframe(model_evaluator,X,y):
+    if model_evaluator.evaluate(X, y) is None:
+        raise ValueError("data does not match expected type of the model")
+
+
+
 class ModelEvaluator:
     def __init__(self, model, problem_type='classification', is_pytorch_model=False, is_keras_model=False):
         """

@@ -112,7 +112,7 @@ def create_model_explanation_plot(features, importances, original_accuracy, metr
     # Update layout with automatic y-axis scaling
     fig.update_layout(
         title="Feature Importance",
-        xaxis_title="=Features",
+        xaxis_title="Features",
         yaxis_title=f"{metric} Decrease If Feature Removed",
         plot_bgcolor='#2F4A6D',  # Background color
         paper_bgcolor='#2F4A6D',

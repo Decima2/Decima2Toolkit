@@ -339,29 +339,31 @@ def validate_dataframe(df, check_empty=True, check_column_types=True, check_dupl
 
     # check for non categorical or numerical columns 
 
+    elif 
+
     # Check if columns are either categorical or continuous
     elif check_column_types:
         invalid_columns = []
         for col in df.columns:
-            if not (is_categorical(df[col]) or is_continuous(df[col]) or column.nunique() == 2):
+            if not (is_numeric(df[col])):
                 invalid_columns.append(col)
 
         if invalid_columns:
             validation_result["valid"] = False
-            validation_result["errors"].append(f"The following columns are neither categorical nor continuous: {invalid_columns}")
+            validation_result["errors"].append(f"The following columns are not numerical {invalid_columns}")
 
     
 
     return validation_result["valid"], validation_result
 
 
-def is_categorical(column):
-    """Check if a column is of categorical type."""
-    return pd.api.types.is_categorical_dtype(column) or pd.api.types.is_object_dtype(column)
+def is_numeric(column):
+    """Check if a column is of numeric type."""
 
-def is_continuous(column):
-    """Check if a column is of numeric type (continuous feature)."""
     return pd.api.types.is_numeric_dtype(column)
+
+
+
 
 
 
