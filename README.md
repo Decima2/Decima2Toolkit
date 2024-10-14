@@ -25,7 +25,7 @@ Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools 
 You can install the package using pip:
 
 <pre>
-pip install git+https://github.com/TortySivill/Decima2Toolkit/
+pip install decima2
 </pre>
 
 
@@ -34,14 +34,14 @@ pip install git+https://github.com/TortySivill/Decima2Toolkit/
 Gain insights into how your models make predictions with clear, interpretable visualizations and explanations, making it easier to communicate results. 
 
 
-### Model Feature Importance
+### Model Feature Importance (Tabular)
 
 <p align="center">
   <img src="images/example.png" width="800" />
 </p>
 
 #### Usage
-Here’s a quick example of how to model_feature_importance to evaluate a machine learning model and compute feature importances.
+Here’s a quick example of how to use model_feature_importance to evaluate a machine learning model and compute feature importances. We reccomend using this explanation method on tabular (numerical) data with less than 100 fetures. 
 
 #### Example
 ##### Load Data and Train Your Model 
@@ -72,7 +72,7 @@ model_feature_importance(X, y, model, output='dynamic'):
     Parameters:
     -----------
     - X: pandas DataFrame
-        The feature matrix (input data) which was used to test the model. 
+        The feature matrix (input data) which was used to test the model. Each column should be of numeric type. 
     - y: pandas Series or Numpy array
         The target variable corresponding to X.
     - model: scikit-learn, Keras, Pytorch compatible model
@@ -108,7 +108,7 @@ explanation_plot = model_feature_importance(X_test,y_test,model,output='static')
 ##### Generate Explanations and View Via Text
 
 <pre>
-explanations = model_feature_importanceX_test,y_test,model,output='text')
+explanations = model_feature_importance(X_test,y_test,model,output='text')
 print(explanations)
 </pre>
 
