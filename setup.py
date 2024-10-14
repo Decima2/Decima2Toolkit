@@ -18,7 +18,7 @@ setup(
     author='Torty Sivill',
     author_email='tortysivill@decima2.co.uk',
     description='Evaluation Toolkit for Machine Learning Models',
-    url='https://github.com/TortySivill/Decima2Toolkit',
+    url='https://github.com/Decima2/Decima2Toolkit',
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: MIT License',
