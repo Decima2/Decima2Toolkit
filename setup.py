@@ -11,7 +11,7 @@ requirements = read_requirements('requirements.txt')
 
 setup(
     name='decima2',
-    version='0.1.0',
+    version='0.1.1',
     packages=find_packages(),
     install_requires=requirements,
     # Other metadata options
@@ -26,5 +26,5 @@ setup(
         "License :: OSI Approved :: MIT License",  # Corrected classifier
         'Operating System :: OS Independent',
     ],
-    python_requires='>=3.6, <=3.12',
+    python_requires='>=3.6, <=3.12.7',
 )
