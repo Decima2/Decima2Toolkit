@@ -22,6 +22,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools wheel twine  # Ensure you have the necessary tools
 
+    - name: Check version
+      run: |
+        python setup.py --version
+
+    - name: Clean dist directory
+      run: |
+        rm -rf dist/*
+
     - name: Build the package
       run: |
         python setup.py sdist bdist_wheel
