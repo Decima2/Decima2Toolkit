@@ -18,10 +18,12 @@ setup(
     author='Torty Sivill',
     author_email='tortysivill@decima2.co.uk',
     description='Evaluation Toolkit for Machine Learning Models',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     url='https://github.com/Decima2/Decima2Toolkit',
     classifiers=[
         'Programming Language :: Python :: 3',
-        'License :: MIT License',
+        "License :: OSI Approved :: MIT License",  # Corrected classifier
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.6, <=3.12',
