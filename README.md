@@ -41,7 +41,7 @@ Gain insights into how your models make predictions with clear, interpretable vi
 </p>
 
 #### Usage
-Here’s a quick example of how to use model_feature_importance to evaluate a machine learning model and compute feature importances. We recommend using this explanation method on tabular (numerical) data with less than 100 fetures. 
+Here’s a quick example of how to use model_feature_importance to evaluate a machine learning model and compute feature importances. We recommend using this explanation method on tabular (numerical) data with less than 100 features. 
 
 #### Example
 ##### Load Data and Train Your Model 
