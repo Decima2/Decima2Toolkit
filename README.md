@@ -128,4 +128,4 @@ This project is licensed under the MIT License. See the LICENSE file for details
 Contributions are welcome! Please create a pull request or open an issue for any improvements, bugs, or feature requests.
 
 ## Contact
-For inquiries, please reach out to tortysivill@decima2.co.uk
+For inquiries, please reach out to torty.sivill@decima2.co.uk
