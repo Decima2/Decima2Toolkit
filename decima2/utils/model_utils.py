@@ -20,6 +20,18 @@ Dependencies:
 - pandas: For managing data in DataFrame format.
 - sklearn.metrics: Provides metrics like accuracy_score and r2_score for classification and regression.
 
+
+Functions:
+________
+1. validate_model_dataframe(model_evaluator,X,y)
+    asserts that the provided dataframe and target are the same type as expected by the model
+    Parameters:
+    - model (ModelEvaluator)
+    - X (pd.DataFrame)
+    - y (np.array or pd.Series
+    
+    Raises a value error if this is not the case
+
 Classes:
 --------
 ModelEvaluator:

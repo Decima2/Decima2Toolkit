@@ -3,179 +3,24 @@ import numpy as np
 import warnings
 
 """
-Module: data_processing
+Module for data preprocessing and model evaluation.
 
-This module provides functions for validating, processing, and evaluating datasets for machine learning models. 
-It includes methods to handle target variables, assess DataFrame structures, and categorize features based on their types.
-
-Dependencies:
--------------
-- pandas: For handling DataFrame structures and data manipulation.
-- numpy: For numerical operations and array manipulations.
-- warnings: To issue warnings about potential issues in dataset processing.
-
-Functions:
-----------
-
-1. target_handler(y):
-    Validates the target variable `y` and determines its type (classification or regression).
-    
-    Parameters:
-    ----------
-    - y: The target variable to validate (1D NumPy array or Pandas Series).
-    
-    Returns:
-    --------
-    - target_type: A string indicating whether the target is for 'classification' or 'regression'.
-
-    Raises:
-    -------
-    - ValueError: If `y` is not a valid 1D array.
-
-2. assert_size(df, y):
-    Checks the size of the DataFrame and target variable `y`. Issues warnings if the size may lead to long computation times 
-    and adjusts their sizes if necessary.
-
-    Parameters:
-    ----------
-    - df: The DataFrame to check.
-    - y: The target variable to check.
-
-    Returns:
-    --------
-    - df, y: Adjusted DataFrame and target variable if applicable.
-
-3. data_discretiser(df, y):
-    Validates the input DataFrame and target variable. It discretizes continuous features into categories and returns a 
-    processed DataFrame.
-
-    Parameters:
-    ----------
-    - df: The input DataFrame.
-    - y: The target variable.
-
-    Returns:
-    --------
-    - discretised_data_frame: A DataFrame with discretized features.
-    - df: The original DataFrame.
-    - y: The target variable.
-
-4. validate_target(y):
-    Validates whether the target variable is a 1D NumPy array or Pandas Series.
-
-    Parameters:
-    ----------
-    - y: The target variable to validate.
-
-    Returns:
-    --------
-    - True if valid, False otherwise.
-
-5. determine_target_type(y, threshold=10):
-    Determines if the target variable is for classification or regression based on the number of unique values.
-
-    Parameters:
-    ----------
-    - y: A 1D NumPy array representing the target variable.
-    - threshold: The threshold for classification (default is 10).
-
-    Returns:
-    --------
-    - 'classification' or 'regression'.
-
-6. validate_dataframe_target(df, y):
-    Checks if the lengths of the DataFrame and target variable match.
-
-    Parameters:
-    ----------
-    - df: The input DataFrame.
-    - y: The target variable.
-
-    Raises:
-    -------
-    - ValueError: If the lengths do not match.
-
-7. validate_dataframe(df, check_empty=True, check_column_types=True, check_duplicates=False):
-    Validates a pandas DataFrame by checking for NaN, infinite values, and optional conditions such as emptiness 
-    and duplicates.
-
-    Parameters:
-    ----------
-    - df: The DataFrame to validate.
-    - check_empty: Whether to check if the DataFrame is empty.
-    - check_column_types: Whether to check for valid column types.
-    - check_duplicates: Whether to check for duplicate rows.
-
-    Returns:
-    --------
-    - (bool, dict): A tuple indicating validity and a dictionary with validation details.
-
-8. is_categorical(column):
-    Checks if a column is of categorical type.
-
-    Parameters:
-    ----------
-    - column: A DataFrame column to check.
-
-    Returns:
-    --------
-    - True if categorical, False otherwise.
-
-9. is_continuous(column):
-    Checks if a column is of numeric type (continuous feature).
-
-    Parameters:
-    ----------
-    - column: A DataFrame column to check.
-
-    Returns:
-    --------
-    - True if continuous, False otherwise.
-
-10. ModelEvaluator:
-    A class for evaluating machine learning models.
-    
-    Methods:
-    --------
-    - __init__(model): Initializes the evaluator with a model.
-    - evaluate(X_test, y_test): Evaluates the model on the given test set and returns a score or metric.
-
-11. determine_data_types(df):
-    Determines which columns in a DataFrame are continuous or discrete.
-
-    Parameters:
-    ----------
-    - df: The input DataFrame.
-
-    Returns:
-    --------
-    - (continuous_columns, discrete_columns): A tuple containing lists of column names.
-
-12. discretise_data(data, n_categories):
-    Discretizes numerical data into specified categories (bins) and returns the discretized data along with bin bounds.
-
-    Parameters:
-    ----------
-    - data: Numerical data to be discretized.
-    - n_categories: Number of categories (bins) to create.
-
-    Returns:
-    --------
-    - discretized_data: List of discretized category labels.
-    - bin_bounds: List of tuples containing (lower_bound, upper_bound) for each bin.
-
-General Notes:
---------------
-- The functions provided in this module facilitate the preprocessing of data for machine learning, ensuring that 
-  datasets are properly formatted and validated before model training and evaluation.
-- Warnings are issued for potential issues such as large dataset sizes or invalid feature types.
-
+This module includes functions for validating inputs, determining target types,
+discretizing numerical data, and evaluating machine learning models. It is designed
+to facilitate the preparation and evaluation of datasets for machine learning tasks.
 """
-
-
 
 def determine_target_type_valid(y):
 
+    """
+    Determine the target type after validating the input.
+
+    Validates the target input and determines if it is for classification or regression.
+
+    :param y: Target variable, can be a 1D NumPy array or Pandas Series.
+    :return: Type of the target variable, either 'classification' or 'regression'.
+    :raises ValueError: If the input is not a valid 1D array or Series.
+    """
 
     is_valid = validate_target(y)
     if not is_valid:
@@ -184,19 +29,55 @@ def determine_target_type_valid(y):
     target_type = determine_target_type(y)
     return target_type
 
+def determine_target_type(y, threshold=10):
+    """
+    Determine if the target variable is for classification or regression.
+
+    Checks the number of unique values in the target variable and whether they are integers.
+
+    :param y: A 1-dimensional NumPy array representing the target variable.
+    :param threshold: Number of unique values below which the variable is considered for classification.
+    :return: 'classification' if the target is discrete, 'regression' if continuous.
+    """
+    unique_values = np.unique(y)
+    
+    # Check if all unique values are integers (common in classification tasks)
+    all_integers = np.all(np.mod(unique_values, 1) == 0)
+    
+    # Classification: if there are relatively few unique values and they are integers
+    if len(unique_values) <= threshold and all_integers:
+        return 'classification'
+    
+    # Otherwise, it's a regression problem
+    return 'regression'
+
 def assert_size(df,y):
 
+    """Assert the size of the DataFrame and target variable.
 
-    if int(df.shape[0]) * int(df.shape[1]) > 10000:
+    Checks if the dataset is larger than 50,000 elements and warns the user if so.
+    Automatically reduces the size of the DataFrame and target variable if necessary.
+
+    :param df: Input DataFrame.
+    :param y: Target variable, can be a NumPy array or Pandas Series.
+    :return: Resized DataFrame and target variable.
+    :raises UserWarning: If the dataset size exceeds 50,000 elements or has too few rows.
+    """
+
+    if int(df.shape[0]) * int(df.shape[1]) > 50000:
         warnings.warn("The dataset passed may require a long computation time. Automatically adjusting size of reference set", UserWarning)
 
-        new_row_dimension_1 = int(10000/df.shape[1])
+        new_row_dimension_1 = int(50000/df.shape[1])
         new_row_dimension_2 = int(df.shape[1]*50)
         new_row_dimension = min(new_row_dimension_1,new_row_dimension_2)
+        if new_row_dimension/df.shape[1] < 50:
+            new_row_dimension_1 = int(100000/df.shape[1])
+            new_row_dimension_2 = int(df.shape[1]*50)
+            new_row_dimension = min(new_row_dimension_1,new_row_dimension_2)
         df = df[:new_row_dimension]
         y = y[:new_row_dimension]
         if df.shape[0]/df.shape[1] < 20:
-            warnings.warn("Reccommend using a model with less features to obtain meaningful explanations", UserWarning)
+            warnings.warn("Recommend using a model with less features to obtain meaningful explanations", UserWarning)
 
     elif df.shape[0]/df.shape[1] < 20:
         warnings.warn("Increase the number of test instances to increase the reliability of feature importances ", UserWarning)
@@ -204,16 +85,23 @@ def assert_size(df,y):
     return df, y
 
 
-def data_discretiser(df,y):
-    """"
-    function first validates DataFrame by calling validate_dataframe. If dataframe is not valid, raise
-    an error. 
+def validate_inputs(df,y):
 
+    """
+    Validate the input DataFrame and target variable.
 
+    Performs size checks and resets the DataFrame index.
 
+    :param df: Input DataFrame.
+    :param y: Target variable, can be a NumPy array or Pandas Series.
+    :return: Validated DataFrame and target variable.
+    :raises ValueError: If the DataFrame or target variable is invalid.
     """
 
     df, y = assert_size(df,y)
+
+    #reset index on df
+    df = df.reset_index(drop=True)
 
     is_valid, details = validate_dataframe(df)
     if not is_valid:
@@ -221,6 +109,20 @@ def data_discretiser(df,y):
 
 
     validate_dataframe_target(df,y)
+
+    return df, y
+
+
+def data_discretiser(df):
+    """
+    Discretizes continuous columns in a DataFrame.
+
+    Returns a new DataFrame with discretized continuous columns and the original DataFrame.
+
+    :param df: Input DataFrame to be discretized.
+    :return: Tuple containing the discretized DataFrame, original DataFrame, and target variable.
+    """
+
 
     discretised_data_frame = pd.DataFrame()
     continuous_columns, discrete_columns = determine_data_types(df)
@@ -236,16 +138,17 @@ def data_discretiser(df,y):
         discretised_data_frame[column] = discretised_values
 
     # not yet returning discretised_category_names, or one_hot_encoded_names leave this for grouped feature importance
-    return discretised_data_frame, df, y 
+    return discretised_data_frame
 
 
 def validate_target(y):
     """
-    Check if the input y is a valid 1-dimensional NumPy array or 1D Pandas Series
-    
-    :param y: The input to check.
-    :return: True if y is a valid 1D NumPy array, False otherwise.
+    Validate if the input target is a 1-dimensional NumPy array or Pandas Series.
+
+    :param y: Input target to validate.
+    :return: True if valid, otherwise False.
     """
+
     if isinstance(y, np.ndarray) and y.ndim == 1:
         return True
     elif  isinstance(y, pd.Series) and y.ndim == 1:
@@ -255,30 +158,14 @@ def validate_target(y):
         return False
 
 
-import numpy as np
-
-def determine_target_type(y, threshold=10):
-    """
-    Determine whether the target variable is for classification or regression.
-    
-    :param y: A 1-dimensional NumPy array representing the target variable.
-    :param threshold: The number of unique values below which the array is considered for classification.
-                      Default is 10 (for cases like binary/multi-class classification).
-    :return: 'classification' if the target is discrete, 'regression' if continuous.
-    """
-    unique_values = np.unique(y)
-    
-    # Check if all unique values are integers (common in classification tasks)
-    all_integers = np.all(np.mod(unique_values, 1) == 0)
-    
-    # Classification: if there are relatively few unique values and they are integers
-    if len(unique_values) <= threshold and all_integers:
-        return 'classification'
-    
-    # Otherwise, it's a regression problem
-    return 'regression'
-
 def validate_dataframe_target(df,y):
+    """
+    Validate that the number of rows in the DataFrame matches the length of the target variable.
+
+    :param df: Input DataFrame.
+    :param y: Target variable.
+    :raises ValueError: If the number of rows in DataFrame does not match the length of target variable.
+    """
     if len(df) != len(y):
         raise ValueError(f"The number of rows in X ({len(X)}) must match the length of y ({len(y)}).")
 
@@ -286,17 +173,15 @@ def validate_dataframe_target(df,y):
 
 def validate_dataframe(df, check_empty=True, check_column_types=True, check_duplicates=False):
     """
-    Validates a pandas DataFrame by checking for NaN values, infinite values,
-    and optionally checks if it's empty or contains duplicate rows.
+    Validate a Pandas DataFrame for common data quality issues.
 
-    Parameters:
-    df (pd.DataFrame): The DataFrame to validate.
-    check_empty (bool): If True, will check if the DataFrame is empty.
-    check_duplicates (bool): If True, will check for duplicate rows.
+    Checks for NaN values, infinite values, duplicates, and the integrity of the DataFrame structure.
 
-    Returns:
-    bool: True if the DataFrame is valid, False otherwise.
-    dict: A dictionary containing details about validation failures.
+    :param df: The DataFrame to validate.
+    :param check_empty: If True, checks if the DataFrame is empty.
+    :param check_column_types: If True, checks if all columns are numeric.
+    :param check_duplicates: If True, checks for duplicate rows.
+    :return: Tuple of (bool, dict) indicating validity and details of validation errors.
     """
 
     dimension_flag = 0 
@@ -362,43 +247,14 @@ def is_numeric(column):
 
 
 
-
-
-class ModelEvaluator:
-    def __init__(self, model):
-        """
-        Initialize the evaluator with the model.
-        :param model: A pre-trained machine learning model (e.g., scikit-learn, XGBoost, etc.)
-        """
-        self.model = model
-
-    def evaluate(self, X_test, y_test):
-        """
-        Evaluate the model on the given test set (X_test, y_test).
-        :param X_test: Features of the test set.
-        :param y_test: Labels/targets of the test set.
-        :return: A score or metric depending on the model.
-        """
-        if hasattr(self.model, 'score'):
-            # For scikit-learn models or others that have a 'score' method
-            return self.model.score(X_test, y_test)
-        elif hasattr(self.model, 'evaluate'):
-            # For deep learning models like Keras with an 'evaluate' method
-            return self.model.evaluate(X_test, y_test, verbose=0)
-        else:
-            raise TypeError("The provided model doesn't have a 'score' or 'evaluate' method")
-
-
 def determine_data_types(df):
     """
-    Determines which columns in a DataFrame are continuous or discrete.
+    Determine which columns in a DataFrame are continuous or discrete.
 
-    Args:
-    - df (pd.DataFrame): The input DataFrame.
+    Analyzes each column and classifies it as either continuous or discrete based on its data type.
 
-    Returns:
-    - data_types (dict): A dictionary with 'continuous' and 'discrete' as keys, 
-                         containing lists of column names.
+    :param df: Input DataFrame.
+    :return: Tuple of lists with 'continuous' and 'discrete' column names.
     """
     continuous_columns = []
     discrete_columns = []
@@ -424,19 +280,16 @@ def determine_data_types(df):
 
 def discretise_data(data, n_categories):
     """
-    Discretizes numerical data into a specified number of categories (bins)
-    with roughly equal amounts of data in each bin, and returns the discretized data
-    along with the lower and upper bounds of each bin.
+    Discretize numerical data into a specified number of categories (bins).
 
-    Args:
-    - data (list or pd.Series): Numerical data to be discretized.
-    - n_categories (int): Number of categories (bins) to create.
+    Returns discretized data along with the bounds of each bin.
 
-    Returns:
-    - discretized_data (list): List of discretized category labels.
-    - bin_bounds (list of tuples): List of tuples containing (lower_bound, upper_bound) for each bin.
+    :param data: Numerical data to be discretized, can be a list or Pandas Series.
+    :param n_categories: Number of categories (bins) to create.
+    :return: Tuple containing the discretized data and bin bounds.
+    :raises ValueError: If n_categories is less than 1.
     """
-    # Convert to a pandas Series if the input is a list
+
     if isinstance(data, list):
         data = pd.Series(data)
     
@@ -452,5 +305,85 @@ def discretise_data(data, n_categories):
 
     return discretized_data.tolist(), bin_bounds
 
+
+
+def validate_selected_feature(X,feature_name, number_of_categories):
+    """
+    Validate the selected feature and determine the appropriate number of categories for discretization.
+
+    :param X: Input DataFrame containing features.
+    :param feature_name: Name of the feature to validate.
+    :param number_of_categories: Number of categories to be used for discretization.
+    :return: Adjusted number of categories.
+    :raises ValueError: If the feature_name is not in DataFrame columns.
+    :raises TypeError: If number_of_categories is not an int when not set to 'auto'.
+    """
+    if feature_name not in X.columns:
+        raise ValueError(f"{feature_name} is not one of the dataframe columns")
+
+    if number_of_categories != 'auto':
+        if type(number_of_categories) != int:
+            raise TypeError("number_of_categories must be an int if not set to auto")
+        k = int(np.ceil(np.log2(X.shape[0]) + 1))
+        if number_of_categories > k:
+            warnings.warn("Number of categories may be too high to return meaningful results, automatically adjusting number of categories ", UserWarning)
+            return 'auto'
+        else:
+            return number_of_categories
+    else:
+        return number_of_categories
+
+def format_feature_categories(feature_categories, feature_name):
+    """
+    Format the category names for a feature based on its bins.
+
+    :param feature_categories: List of bin categories.
+    :param feature_name: Name of the feature being categorized.
+    :return: List of formatted category names.
+    """
+    formatted_feature_categories = []
+    for i in feature_categories:
+        new_i = [str(round(x,3)) for x in i]
+        new_category_name = new_i [0] + " >= " + feature_name + " < " + new_i[1]
+        formatted_feature_categories.append(new_category_name)
+    return formatted_feature_categories
+
+
+
+def discretise_selected_feature(feature_values,number_of_categories,feature_name):
+    """
+    Discretize a specific feature based on the number of desired categories.
+
+    Automatically adjusts the number of categories if set to 'auto'.
+
+    :param feature_values: Values of the feature to be discretized.
+    :param number_of_categories: Number of categories for discretization.
+    :param feature_name: Name of the feature.
+    :return: Tuple containing discretized values and formatted feature categories.
+    """
+    if number_of_categories == 'auto':
+        unique_values = feature_values.nunique()
+        if unique_values <= 10:  # Arbitrary threshold for categorical data
+            #discretised_values, feature_categories = data_utils_temp.discretise_data(feature_values, unique_values)
+
+            discretised_values = feature_values.values
+            unique_values = np.unique(feature_values)
+            formatted_feature_categories = [feature_name + ' = ' +str(i) for i in unique_values]
+        else:
+            discretised_values, feature_categories = discretise_data(feature_values, 5)
+
+            formatted_feature_categories = format_feature_categories(feature_categories, feature_name)
+
+    else:
+        if number_of_categories == feature_values.nunique():
+            discretised_values = feature_values.values
+            unique_values = np.unique(feature_values)
+            formatted_feature_categories = [feature_name + ' = ' +str(i) for i in unique_values]
+
+        else:
+            discretised_values, feature_categories = discretise_data(feature_values, number_of_categories)
+            formatted_feature_categories = format_feature_categories(feature_categories, feature_name)
+
+    return discretised_values, formatted_feature_categories 
 
 
