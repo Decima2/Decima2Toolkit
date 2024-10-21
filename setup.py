@@ -11,14 +11,14 @@ requirements = read_requirements('requirements.txt')
 
 setup(
     name="decima2",
-    version="0.1.1",
+    version="0.2.1",
     packages=find_packages(),
     install_requires=requirements,
     # Other metadata options
     author="Torty Sivill",
     author_email="torty.sivill@decima2.co.uk",
     description="Evaluation Toolkit for Machine Learning Models",
-    long_description=open('README.md').read(),
+    long_description=open('pypi_info.md').read(),
     long_description_content_type="text/markdown",
     url="https://github.com/Decima2/Decima2Toolkit",
     classifiers=[

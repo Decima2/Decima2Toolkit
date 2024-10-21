@@ -85,6 +85,7 @@ def assert_size(df,y):
     return df, y
 
 
+
 def validate_inputs(df,y):
 
     """
@@ -103,6 +104,8 @@ def validate_inputs(df,y):
     #reset index on df
     df = df.reset_index(drop=True)
 
+
+
     is_valid, details = validate_dataframe(df)
     if not is_valid:
         raise ValueError(details)
@@ -111,6 +114,7 @@ def validate_inputs(df,y):
     validate_dataframe_target(df,y)
 
     return df, y
+
 
 
 def data_discretiser(df):
@@ -223,6 +227,9 @@ def validate_dataframe(df, check_empty=True, check_column_types=True, check_dupl
 
 
 
+
+
+
     # Check if columns are numerical
     elif check_column_types:
         invalid_columns = []
@@ -233,6 +240,10 @@ def validate_dataframe(df, check_empty=True, check_column_types=True, check_dupl
         if invalid_columns:
             validation_result["valid"] = False
             validation_result["errors"].append(f"The following columns are not numerical {invalid_columns}")
+
+       
+
+
 
     
 

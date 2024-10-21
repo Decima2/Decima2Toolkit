@@ -5,7 +5,10 @@ import requests
 import random
 
 # Replace this URL with the Google Cloud Function URL you get after deployment
-CLOUD_FUNCTION_URL_MODEL_EXPLANATION = "https://europe-west2-decima2.cloudfunctions.net/call_private_model_explanation"
+#CLOUD_FUNCTION_URL_MODEL_EXPLANATION = "https://europe-west2-decima2.cloudfunctions.net/call_private_model_explanation"
+CLOUD_FUNCTION_URL_MODEL_EXPLANATION = "https://model-explanation-api-gateway-1y81cisz.nw.gateway.dev/call_private_model_explanation"
+CLOUD_FUNCTION_URL_GROUPED_EXPLANATION = "https://grouped-explanation-api-gateway-1y81cisz.nw.gateway.dev/call_private_grouped_explanation"
+
 
 """
 Module: model_explanation_calculation
@@ -48,7 +51,15 @@ Functions:
     - feature_importances (dict): Dictionary containing feature names and their importances.
 
 3. public_model_feature_importance
-    Public function that interacts with the Google Cloud Function, invoked by both grouped_feature_importance and model_feature_imporance, our novel
+    Public function that interacts with the Google Cloud Function, invoked by model_feature_imporance, our novel
+    similarity algorithm is hosted in Google Cloud
+    - X_d(pd.DataFrame): Dataset used as representation of data manifold
+    - X_i (pd.DataFrame): Intervened dataset used to find reference points on manifold
+    - i (int) index of column under investigation
+    Returns: most_similar_datapoints (list) list of indexes representing datapoints on the data manifold
+
+4. public_grouped_feature_importance
+    Public function that interacts with the Google Cloud Function, invoked by grouped_feature_importance our novel
     similarity algorithm is hosted in Google Cloud
     - X_d(pd.DataFrame): Dataset used as representation of data manifold
     - X_i (pd.DataFrame): Intervened dataset used to find reference points on manifold
@@ -89,7 +100,13 @@ def model_feature_importance(model_evaluator, X, X_d, y):
         # Copy the original data and permute the feature
         X_intervened = X_d.copy()
 
-        X_intervened[col] = (X_intervened[col] + 1) % len(feature_names)
+        number_uniques = X_d[col].nunique()
+        
+        if number_uniques < 3: 
+            X_intervened[col] = (X_intervened[col] + 1) % number_uniques
+        else:
+            random_array = [random.randint(1, number_uniques-1) for _ in range(X_intervened.shape[0])]
+            X_intervened[col] = (X_intervened[col] + random_array) % number_uniques
 
         # Get most similar data points
         most_similar_datapoints = public_model_feature_importance(X_d.values, X_intervened.values, i)
@@ -143,10 +160,12 @@ def grouped_feature_importance(model_evaluator, X, y, X_d, X_d_selected, X_selec
         # Copy the original data and permute the feature
         X_intervened = X_d_selected.copy()
         number_uniques = X_d[col].nunique()
-        random_array = [random.randint(1, number_uniques-1) for _ in range(X_intervened.shape[0])]
-        X_intervened[col] = (X_intervened[col] + random_array) % number_uniques
-        # Get most similar data points
-        most_similar_datapoints = public_model_feature_importance(X_d.values, X_intervened.values, i)
+        if number_uniques < 3: 
+            X_intervened[col] = (X_intervened[col] + 1) % number_uniques
+        else:
+            random_array = [random.randint(1, number_uniques-1) for _ in range(X_intervened.shape[0])]
+            X_intervened[col] = (X_intervened[col] + random_array) % number_uniques
+        most_similar_datapoints = public_grouped_feature_importance(X_d.values, X_intervened.values, i)
         most_similar_datapoints = np.asarray(most_similar_datapoints)
 
         # Get realistic samples
@@ -170,6 +189,23 @@ def public_model_feature_importance(X_d=0,X_i=0,index=-1):
     try:
         # Send a POST request to the Google Cloud Function
         response = requests.post(CLOUD_FUNCTION_URL_MODEL_EXPLANATION, json={"X_d" : X_d.tolist(), "X_i" : X_i.tolist(), "index": index})
+        
+        # Check if the request was successful
+        if response.status_code == 200:
+            data = response.json()
+            return data['message']
+        else:
+            data = response.json()
+            return data['error']
+    except Exception as e:
+        return f"Error: {e}"
+
+
+def public_grouped_feature_importance(X_d=0,X_i=0,index=-1):
+    # Public function that interacts with the Google Cloud Function
+    try:
+        # Send a POST request to the Google Cloud Function
+        response = requests.post(CLOUD_FUNCTION_URL_GROUPED_EXPLANATION, json={"X_d" : X_d.tolist(), "X_i" : X_i.tolist(), "index": index})
         
         # Check if the request was successful
         if response.status_code == 200:
