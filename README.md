@@ -13,8 +13,8 @@ Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools 
 ## Table of Contents
 1. [Installation](#installation)
 2. [Model Tools](#model-tools)
-   - [Model Feature Importance](#model-feature-importance-tabular)
-   - [Grouped Feature Importance](#grouped-feature-importance-tabular)
+   - [Model Feature Importance](#model-feature-importance)
+   - [Grouped Feature Importance](#grouped-feature-importance)
 3. [Data Tools](#data-tools)
 4. [Outcome Tools](#outcome-tools)
 5. [License](#license)
