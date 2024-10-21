@@ -13,8 +13,8 @@ Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools 
 ## Table of Contents
 1. [Installation](#installation)
 2. [Model Tools](#model-tools)
-   - [Model Feature Importance](#model-feature-importance)
-   - [Grouped Feature Importance](#grouped-feature-importance)
+   - [Model Feature Importance](#model-feature-importance-tabular)
+   - [Grouped Feature Importance](#grouped-feature-importance-tabular)
 3. [Data Tools](#data-tools)
 4. [Outcome Tools](#outcome-tools)
 5. [License](#license)
@@ -36,7 +36,8 @@ pip install decima2
 Gain insights into how your models make predictions with clear, interpretable visualizations and explanations, making it easier to communicate results. 
 
 
-### Model Feature Importance (Tabular)
+### Model Feature Importance
+For Tabular Data 
 
 <p align="center">
   <img src="images/example.png" width="800" />
@@ -126,7 +127,8 @@ print(explanations)
 </pre>
 
 
-### Grouped Feature Importance (Tabular)
+### Grouped Feature Importance
+For Tabular Data 
 
 <p align="center">
   <img src="images/grouped_feature_importance.png" width="800" />
