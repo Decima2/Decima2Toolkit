@@ -221,7 +221,7 @@ def grouped_feature_importance(X,y,model,feature_name, output='dynamic', number_
         return grouped_feature_importance
 
     if output == 'dynamic':
-        app = explanation_visualisation.create_grouped_explanation_app(grouped_feature_importance, original_accuracies, model_evaluator.metric, most_important_features, feature_name)
+        app = visualisation_explanation.create_grouped_explanation_app(grouped_feature_importance, original_accuracies, model_evaluator.metric, most_important_features, feature_name)
         return app
 
 
