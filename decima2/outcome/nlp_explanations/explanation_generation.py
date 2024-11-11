@@ -8,7 +8,7 @@ from decima2.utils.nlp_utils import EmbeddingModel,measure_embedding_similarity
 
 from decima2.outcome.nlp_explanations.nlp_private_function import public_individual_nlp_explanation
 
-def individual_nlp_explanation(text1, text2, model_name, output='text') :
+def individual_nlp_explanation(text1, text2, model_name, output='dynamic') :
     """
     Analyzes the similarities and differences between two input texts by extracting key bigrams, generating 
     embeddings, and comparing them to identify impactful pairs. Returns pairs that increase and decrease similarity 
@@ -22,7 +22,7 @@ def individual_nlp_explanation(text1, text2, model_name, output='text') :
         The second text input to analyze.
     model_name : str
         The name of the embedding model to use for encoding text bigrams.
-    output : str, optional, default='text'
+    output : str, optional, default='dynamic'
         Specifies the output type:
         - 'text': returns lists of impactful bigram pairs with similarity effects.
         - 'dynamic': returns an interactive app for visualizing similarity effects.
@@ -41,18 +41,8 @@ def individual_nlp_explanation(text1, text2, model_name, output='text') :
 
     Examples
     --------
-    Example 1: Text Output
-    ----------------------
-    To get the list of bigram pairs that increase and decrease similarity between two texts:
 
-    >>> text1 = "Natural language processing is a fascinating field of AI."
-    >>> text2 = "The field of artificial intelligence includes NLP and machine learning."
-    >>> model_name = "bert-base-uncased"
-    >>> similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name)
-    >>> print("Pairs that increase similarity:", similarity_increasers)
-    >>> print("Pairs that decrease similarity:", similarity_decreasers)
-
-    Example 2: Dynamic Visualization Output
+    Example 1: Dynamic Visualization Output
     ---------------------------------------
     To generate a dynamic visualization app for a side-by-side comparison of similarity-increasing 
     and similarity-decreasing bigrams:
@@ -63,11 +53,22 @@ def individual_nlp_explanation(text1, text2, model_name, output='text') :
     >>> app = individual_nlp_explanation(text1, text2, model_name, output='dynamic')
     >>> app.run()  # This will start a web server for visualizing similarity comparisons.
 
+    Example 2: Text Output
+    ----------------------
+    To get the list of bigram pairs that increase and decrease similarity between two texts:
+
+    >>> text1 = "Natural language processing is a fascinating field of AI."
+    >>> text2 = "The field of artificial intelligence includes NLP and machine learning."
+    >>> model_name = "bert-base-uncased"
+    >>> similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name)
+    >>> print("Pairs that increase similarity:", similarity_increasers)
+    >>> print("Pairs that decrease similarity:", similarity_decreasers)
+
     Notes
     -----
-    - In the first example, `similarity_increasers` and `similarity_decreasers` contain tuples 
+    - In the second example, `similarity_increasers` and `similarity_decreasers` contain tuples 
       of (bigram_from_text1, bigram_from_text2, similarity_effect) for bigram pairs.
-    - In the second example, running `app.run()` launches an interactive Flask app for viewing 
+    - In the first example, running `app.run()` launches an interactive Flask app for viewing 
       and exploring the similarity effects in a web interface.
     """
 

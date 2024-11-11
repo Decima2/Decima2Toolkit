@@ -5,7 +5,7 @@ from decima2.outcome.nlp_explanations.nlp_private_function import public_individ
 
 def test_cloud_function():
     text1 = "espresso machine with milk thingy"
-    response = public_individual_nlp_explanation(text1, 1, 3)
+    response = public_individual_nlp_explanation(text1, 1, 3, output='text')
     print(response)
     assert isinstance(response,list)
 
@@ -19,7 +19,7 @@ def test_individual_nlp_explanation_bert():
 
     model_name = 'bert-base-uncased'  # You can change this to any model name from Hugging Face
 
-    similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name)
+    similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name,output='text')
     
     assert isinstance(similarity_increasers, list)
     assert isinstance(similarity_decreasers, list)
@@ -33,7 +33,7 @@ def test_individual_nlp_explanation_distilbert():
 
     model_name = 'distilbert-base-uncased'  # You can change this to any model name from Hugging Face
 
-    similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name)
+    similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name,output='text')
     
     assert isinstance(similarity_increasers, list)
     assert isinstance(similarity_decreasers, list)
@@ -49,7 +49,7 @@ def test_individual_nlp_explanation_roberta():
 
     model_name = 'roberta-base'  # You can change this to any model name from Hugging Face
 
-    similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name)
+    similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name,output='text')
     
     assert isinstance(similarity_increasers, list)
     assert isinstance(similarity_decreasers, list)
