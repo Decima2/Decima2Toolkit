@@ -26,5 +26,5 @@ setup(
         "License :: OSI Approved :: MIT License",  # Corrected classifier
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.6, <=3.12.7",
+    python_requires=">=3.7, <=3.12.7",
 )
