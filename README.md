@@ -223,6 +223,11 @@ These tools help you to evaluate the outcomes of your model
 ### Individual NLP Explanation
 Understand which terms were most impactful in driving the similarity between two embedded texts
 
+
+<p align="center">
+  <img src="images/individual_nlp_explanation.png" width="800" />
+</p>
+
 <pre>
 from decima2 import individual_nlp_explanation
 </pre>
@@ -246,8 +251,8 @@ import numpy as np
 from decima2 import individual_nlp_explanation
 
 # Load your text
-text1 = "the cat sat on the mat"
-text2= "the dog lay on the mat"
+text1 = "the cat sat on the mat and it purred"
+text2= "the dog lay upon the mat and it barked"
 model_name = "bert-base-uncased"
 
 </pre>
