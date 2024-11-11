@@ -78,7 +78,7 @@ from decima2 import individual_nlp_explanation
 This tool allows users to explore which terms were most influential in driving similarity score between the two texts in embedded space as determined by the user specified model.  
 
 #### Instructions
-For detailed usage instructions and to explore how the module works check out our [Developer Docs](https://docs.decima2.co.uk/docs/nlp/individual-nlp-explanation) 
+For detailed usage instructions and to explore how the module works check out our [Developer Docs](https://docs.decima2.co.uk/docs/individual-explanation/individual-nlp-explanation) 
 #### Tutorial 
 To explore tutorials on individual nlp explanation and use-cases check out our [Jupyter Notebooks](https://github.com/Decima2/Decima2Toolkit/tree/main/examples/outcome_insights/individual_nlp_explanation)  
 
