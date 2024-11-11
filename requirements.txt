@@ -11,4 +11,4 @@ keras<=3.8,>=2.4.0
 tensorflow<=2.19.0,>2.10.0
 pytest<=8.3.3,>=7.4.3
 nltk <= 3.9.1
-sentence_transformers<5.0.0,>=4.41.0 
+sentence_transformers<5.0.0,>=2.2.0 
