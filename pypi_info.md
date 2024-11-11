@@ -13,6 +13,7 @@ Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools 
    - [Grouped Feature Importance](#grouped-feature-importance)
 3. [Data Tools](#data-tools)
 4. [Outcome Tools](#outcome-tools)
+	- [Individual NLP Explanations](#individual-nlp-explanations)
 5. [License](#license)
 6. [Contributing](#contributing)
 7. [Contact](#contact)
@@ -65,8 +66,22 @@ To explore tutorials on grouped feature importance including motivation and use-
 These tools help you evaluate your data 
 
 ## Outcome Tools
-### Coming Soon 
 These tools help you to evaluate the outcomes of your model
+
+### Individual NLP Explanations 
+Understand which terms were most impactful in driving the similarity between two embedded texts
+
+<pre>
+from decima2 import individual_nlp_explanation
+</pre>
+
+This tool allows users to explore which terms were most influential in driving similarity score between the two texts in embedded space as determined by the user specified model.  
+
+#### Instructions
+For detailed usage instructions and to explore how the module works check out our [Developer Docs](https://docs.decima2.co.uk/docs/nlp/individual-nlp-explanation) 
+#### Tutorial 
+To explore tutorials on individual nlp explanation and use-cases check out our [Jupyter Notebooks](https://github.com/Decima2/Decima2Toolkit/tree/main/examples/outcome_insights/individual_nlp_explanation)  
+
 
 
 ## License
