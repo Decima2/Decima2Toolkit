@@ -5,7 +5,7 @@ from decima2.outcome.nlp_explanations.nlp_private_function import public_individ
 
 def test_cloud_function():
     text1 = "espresso machine with milk thingy"
-    response = public_individual_nlp_explanation(text1, 1, 3, output='text')
+    response = public_individual_nlp_explanation(text1, 1, 3)
     print(response)
     assert isinstance(response,list)
 

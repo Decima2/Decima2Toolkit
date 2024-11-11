@@ -17,6 +17,7 @@ Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools 
    - [Grouped Feature Importance](#grouped-feature-importance)
 3. [Data Tools](#data-tools)
 4. [Outcome Tools](#outcome-tools)
+  - [Individual NLP Explanation](#individual-nlp-explanation)
 5. [License](#license)
 6. [Contributing](#contributing)
 7. [Contact](#contact)
@@ -217,9 +218,90 @@ print(explanations)
 These tools help you evaluate your data 
 
 ## Outcome Tools
-### Coming Soon 
 These tools help you to evaluate the outcomes of your model
 
+### Individual NLP Explanation
+Understand which terms were most impactful in driving the similarity between two embedded texts
+
+<pre>
+from decima2 import individual_nlp_explanation
+</pre>
+
+This tool allows users to explore which terms were most influential in driving similarity score between the two texts in embedded space as determined by the user specified model.  
+
+#### Instructions
+For detailed usage instructions and to explore how the module works check out our [Developer Docs](https://docs.decima2.co.uk/docs/nlp/individual-nlp-explanation) 
+#### Tutorial 
+To explore tutorials on individual nlp explanation and use-cases check out our [Jupyter Notebooks](https://github.com/Decima2/Decima2Toolkit/tree/main/examples/outcome_insights/individual_nlp_explanation)  
+
+#### Usage
+Here’s a quick example of how to use grouped_feature_importance to evaluate a machine learning model and compute feature importances. We recommend using this explanation method on tabular (numerical) data with less than 100 features. We reccomend grouping your selected feature into an interpretable number of categories ('auto' is 5 if not categorical).
+
+#### Example
+##### Load Data and Model 
+<pre>
+import pandas as pd
+import numpy as np
+
+from decima2 import individual_nlp_explanation
+
+# Load your text
+text1 = "the cat sat on the mat"
+text2= "the dog lay on the mat"
+model = "bert-base-uncased"
+
+</pre>
+
+
+#### Call Individual NLP Explanation:
+-----------
+<pre>
+def individual_nlp_explanation(text1, text2, model_name, output='dynamic') :
+  Analyzes the similarities and differences between two input texts by extracting key bigrams, generating 
+  embeddings, and comparing them to identify impactful pairs. Returns pairs that increase and decrease similarity 
+  between the two texts, or generates a dynamic visualization app.
+
+  Parameters
+  ----------
+  text1 : str
+      The first text input to analyze.
+  text2 : str
+      The second text input to analyze.
+  model_name : str
+      The name of the embedding model to use for encoding text bigrams.
+  output : str, optional, default='dynamic'
+      Specifies the output type:
+      - 'text': returns lists of impactful bigram pairs with similarity effects.
+      - 'dynamic': returns an interactive app for visualizing similarity effects.
+
+  Returns
+  -------
+  tuple or app
+      If `output` is 'text', returns a tuple of two lists:
+      - similarity_increasers : list of tuples
+          Pairs of bigrams that increase the similarity between `text1` and `text2`.
+      - similarity_decreasers : list of tuples
+          Pairs of bigrams that decrease the similarity between `text1` and `text2`.
+      
+      If `output` is 'dynamic', returns a Flask app for interactive visualization of 
+      similarity increasers and decreasers.
+</pre>
+
+##### Generate Explanation and View Via Interactive App
+
+<pre>
+app = individual_nlp_explanation(text1, text2, model_name, output='dynamic')
+app.run()  # This will start a web server for visualizing similarity comparisons.
+</pre>
+
+##### Generate Explanation and View Via Text
+
+<pre>
+similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name, outcome='')
+print("Pairs that increase similarity:", similarity_increasers)
+print("Pairs that decrease similarity:", similarity_decreasers)
+
+</pre>
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.

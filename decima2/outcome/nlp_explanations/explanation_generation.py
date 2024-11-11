@@ -60,7 +60,7 @@ def individual_nlp_explanation(text1, text2, model_name, output='dynamic') :
     >>> text1 = "Natural language processing is a fascinating field of AI."
     >>> text2 = "The field of artificial intelligence includes NLP and machine learning."
     >>> model_name = "bert-base-uncased"
-    >>> similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name)
+    >>> similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name, outcome='')
     >>> print("Pairs that increase similarity:", similarity_increasers)
     >>> print("Pairs that decrease similarity:", similarity_decreasers)
 
