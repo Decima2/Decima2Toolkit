@@ -17,7 +17,7 @@ Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools 
    - [Grouped Feature Importance](#grouped-feature-importance)
 3. [Data Tools](#data-tools)
 4. [Outcome Tools](#outcome-tools)
-  - [Individual NLP Explanation](#individual-nlp-explanation)
+   - [Individual NLP Explanation](#individual-nlp-explanation)
 5. [License](#license)
 6. [Contributing](#contributing)
 7. [Contact](#contact)
@@ -297,7 +297,7 @@ app.run()  # This will start a web server for visualizing similarity comparisons
 ##### Generate Explanation and View Via Text
 
 <pre>
-similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name, outcome='')
+similarity_increasers, similarity_decreasers = individual_nlp_explanation(text1, text2, model_name, output="text")
 print("Pairs that increase similarity:", similarity_increasers)
 print("Pairs that decrease similarity:", similarity_decreasers)
 
