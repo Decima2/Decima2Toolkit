@@ -94,7 +94,7 @@ def create_nlp_app(input_text_1, input_text_2, original_similarity, top_importan
             'marginBottom': '5%'
         },
         children=[
-            html.Div(f"The Similarity Between Both Texts Is {round(original_similarity, 2)}", style={
+            html.Div(f"The Similarity Between Both Texts Is {round(float(original_similarity),2)}", style={
                 'color': 'white',
                 'fontSize': 18,
                 'fontWeight': 'bold',
@@ -235,16 +235,16 @@ def create_nlp_app(input_text_1, input_text_2, original_similarity, top_importan
             latest_top_click = max((click for click in top_clicks if click), default=None)
             if latest_top_click is not None:
                 latest_top_index = top_clicks.index(latest_top_click)
-                similarity_score = round(original_similarity - top_importance_subset[latest_top_index][2], 2)
-                left_score = f"If both terms are removed from the text, the similarity score becomes : {similarity_score}"
+                similarity_score = round(top_importance_subset[latest_top_index][2], 2)
+                left_score = f"The similiarity between these terms is : {similarity_score}"
 
         # Find the most recently clicked item in the right panel
         if any(bottom_clicks):
             latest_bottom_click = max((click for click in bottom_clicks if click), default=None)
             if latest_bottom_click is not None:
                 latest_bottom_index = bottom_clicks.index(latest_bottom_click)
-                similarity_score = round(original_similarity - bottom_importance_subset[latest_bottom_index][2], 2)
-                right_score = f"If both terms are removed from the text, the similarity score becomes {similarity_score}"
+                similarity_score = round(bottom_importance_subset[latest_bottom_index][2], 2)
+                right_score = f"The similarity between these terms is {similarity_score}"
 
         return left_score, right_score
 

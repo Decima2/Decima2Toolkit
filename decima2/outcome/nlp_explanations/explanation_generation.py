@@ -89,20 +89,22 @@ def individual_nlp_explanation(text1, text2, model_name, output='dynamic') :
 
     
     # start and finish index for text1 
-    start_index_1 = 2
+    start_index_1 = 1
     if length_list_1 < 3:
         start_index_1 = 1
-    finish_index_1 = max(2,length_list_1 - 1)
-    if finish_index_1 > 11:
-        finish_index_1 = 10
+    #finish_index_1 = max(2,length_list_1 - 1)
+    #if finish_index_1 > 11:
+    #    finish_index_1 = 10
+    finish_index_1 = 4
 
     # start and finish index for text1 
-    start_index_2 = 2
+    start_index_2 = 1
     if length_list_2 < 3:
         start_index_2 = 1
-    finish_index_2 = max(2,length_list_2 - 1)
-    if finish_index_2 > 11:
-        finish_index_2 = 10
+    #finish_index_2 = max(2,length_list_2 - 1)
+    #if finish_index_2 > 11:
+    #    finish_index_2 = 10
+    finish_index_2 = 4
 
     response = public_individual_nlp_explanation(text1, start_index_1, finish_index_1)
     [bigrams1, keys1] = response
@@ -128,24 +130,25 @@ def individual_nlp_explanation(text1, text2, model_name, output='dynamic') :
     impactful_pairs = []
     for i in range(len(bigrams1)):
         for j in range(len(bigrams2)):
-            impactful_pairs.append((keys1[i], keys2[j], original_similarity - similarities[i][j]))
+            impactful_pairs.append((keys1[i], keys2[j], similarities[i][j]))
 
     # Step 5: Sort and get top and bottom results
     impactful_pairs = sorted(impactful_pairs, key=lambda x: x[2])
     
-    top_pairs = impactful_pairs[-top_k:]  # Get top_k pairs (highest similarity)
+    top_pairs = impactful_pairs[-top_k:] # Get top_k pairs (highest similarity)
+    top_pairs.reverse()
     bottom_pairs = impactful_pairs[:top_k]  # Get bottom_k pairs (lowest similarity)
     similarity_increasers = []
     
     for pair in top_pairs:
         tolerance = 1e-2  # Define a small tolerance
-        if pair[2] > tolerance:
+        if pair[2] > original_similarity:
             similarity_increasers.append(pair)
    
     similarity_decreasers = []
     for pair in bottom_pairs:
         tolerance = 1e-2  # Define a small tolerance
-        if (pair[2]) < -tolerance:
+        if (pair[2]) < original_similarity:
             similarity_decreasers.append(pair)
 
     if output == 'text':
