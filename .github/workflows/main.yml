@@ -15,7 +15,7 @@ jobs:
     
     strategy:
       matrix:
-        python-version: [3.7]  # List the Python versions you want to test
+        python-version: [3.9.7]  # List the Python versions you want to test
 
     steps:
       - name: Check out code
