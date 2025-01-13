@@ -4,7 +4,8 @@ import numpy as np
 import requests
 import random
 
-CLOUD_FUNCTION_URL_INDIVIDUAL_NLP_EXPLANATION = "https://individual-nlp-explanation-api-gateway-1y81cisz.nw.gateway.dev/call_private_individual_nlp_explanation"
+#CLOUD_FUNCTION_URL_INDIVIDUAL_NLP_EXPLANATION = "https://individual-nlp-explanation-api-gateway-1y81cisz.nw.gateway.dev/call_private_individual_nlp_explanation"
+CLOUD_FUNCTION_URL_INDIVIDUAL_NLP_EXPLANATION = "https://europe-west2-decima2.cloudfunctions.net/call_private_individual_nlp_explanation"
 
 
 def public_individual_nlp_explanation(text=0,start_index=-1,finish_index=-1):
