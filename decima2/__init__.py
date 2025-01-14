@@ -2,3 +2,4 @@
 from .model.explanation.explanation_generation import model_feature_importance
 from .model.explanation.explanation_generation import grouped_feature_importance
 from .outcome.nlp_explanations.explanation_generation import individual_nlp_explanation
+from .outcome.tabular_explanations.explanation_generation import individual_feature_importance

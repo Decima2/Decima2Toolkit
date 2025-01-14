@@ -132,6 +132,14 @@ class ModelEvaluator:
         self.is_keras_model = isinstance(model, (Model, Sequential))
         self.metric = 'Accuracy'
 
+    def predict(self, X_test, target_axis):
+        if self.problem_type =='classification':
+            predictions = self.model.predict_proba(X_test)[:,target_axis]
+        else:
+            predictions = self.model.predict(X_test)
+
+        return predictions
+
     def evaluate(self, X_test, y_test):
         """
         Evaluate the model on the given test set (X_test, y_test).
