@@ -320,7 +320,7 @@ For Tabular Data
 from decima2 import individual_feature_importance
 </pre>
 
-This tool allows users to examine which features were most important for an individual prediction. Given a numerical dataset and pre-trained model and an instance to be explainaed, the individual_feature_importance module returns either a graphical representation of which features were most important. 
+This tool allows users to examine which features were most important for an individual prediction. Given a numerical dataset, a pre-trained model and an instance to be explainaed, the individual_feature_importance module returns a graphical representation of which features were most important. 
    
 #### Tutorial 
 To explore tutorials on individual feature importance and use-cases check out our [Jupyter Notebooks](https://github.com/Decima2/Decima2Toolkit/tree/main/examples/outcome_insights/)  

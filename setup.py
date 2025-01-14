@@ -11,7 +11,7 @@ requirements = read_requirements('requirements.txt')
 
 setup(
     name="decima2",
-    version="0.3.2",
+    version="0.4.0",
     packages=find_packages(),
     install_requires=requirements,
     # Other metadata options

@@ -14,6 +14,7 @@ Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools 
 3. [Data Tools](#data-tools)
 4. [Outcome Tools](#outcome-tools)
 	- [Individual NLP Explanation](#individual-nlp-explanation)
+	- [Individual Feature Importance](#individual-feature-importance)
 5. [License](#license)
 6. [Contributing](#contributing)
 7. [Contact](#contact)
@@ -82,6 +83,18 @@ For detailed usage instructions and to explore how the module works check out ou
 #### Tutorial 
 To explore tutorials on individual nlp explanation and use-cases check out our [Jupyter Notebooks](https://github.com/Decima2/Decima2Toolkit/tree/main/examples/outcome_insights/individual_nlp_explanation)  
 
+
+### Individual Feature Importance
+For Tabular Data 
+
+This tool allows users to examine which features were most important for an individual prediction. Given a numerical dataset, a pre-trained model and an instance to be explainaed, the individual_feature_importance module returns a graphical representation of which features were most important. 
+
+<pre>
+from decima2 import individual_feature_importance
+</pre>
+   
+#### Tutorial 
+To explore tutorials on individual feature importance and use-cases check out our [Jupyter Notebooks](https://github.com/Decima2/Decima2Toolkit/tree/main/examples/outcome_insights/)  
 
 
 ## License
