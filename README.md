@@ -18,6 +18,7 @@ Welcome to the Decima2 AI Evaluation Toolkit — a comprehensive suite of tools 
 3. [Data Tools](#data-tools)
 4. [Outcome Tools](#outcome-tools)
    - [Individual NLP Explanation](#individual-nlp-explanation)
+   - [Individual Feature Importance](#individual-feature-importance)
 5. [License](#license)
 6. [Contributing](#contributing)
 7. [Contact](#contact)
@@ -240,7 +241,7 @@ For detailed usage instructions and to explore how the module works check out ou
 To explore tutorials on individual nlp explanation and use-cases check out our [Jupyter Notebooks](https://github.com/Decima2/Decima2Toolkit/tree/main/examples/outcome_insights/individual_nlp_explanation)  
 
 #### Usage
-Here’s a quick example of how to use grouped_feature_importance to evaluate a machine learning model and compute feature importances. We recommend using this explanation method on tabular (numerical) data with less than 100 features. We reccomend grouping your selected feature into an interpretable number of categories ('auto' is 5 if not categorical).
+Here’s a quick example of how to use individual nlp explanations to evaluate word and concept importance in embedding space. This functionality can be applied to any Hugging Face model. 
 
 #### Example
 ##### Load Data and Model 
@@ -307,6 +308,80 @@ print("Pairs that increase similarity:", similarity_increasers)
 print("Pairs that decrease similarity:", similarity_decreasers)
 
 </pre>
+
+### Individual Feature Importance
+For Tabular Data 
+
+<p align="center">
+  <img src="images/individual_feature_importance.png" width="800" />
+</p>
+
+<pre>
+from decima2 import individual_feature_importance
+</pre>
+
+This tool allows users to examine which features were most important for an individual prediction. Given a numerical dataset and pre-trained model and an instance to be explainaed, the individual_feature_importance module returns either a graphical representation of which features were most important. 
+   
+#### Tutorial 
+To explore tutorials on individual feature importance and use-cases check out our [Jupyter Notebooks](https://github.com/Decima2/Decima2Toolkit/tree/main/examples/outcome_insights/)  
+
+#### Usage
+Here’s a quick example of how to use individual_feature_importance to evaluate a machine learning model and compute feature importances. We recommend using this explanation method on tabular (numerical) data with less than 100 features. 
+
+#### Example
+##### Load Data and Train Your Model 
+<pre>
+import pandas as pd
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+
+from decima2 import individual_feature_importance
+
+# Load your dataset
+df = pd.read_csv('your_dataset.csv')
+y = df['target']
+X = df.drop(columns=['target'])
+
+X_train, X_test, y_train, y_test = train_test_split(X y, test_size=0.20, random_state=42)
+model = RandomForestClassifier(max_depth=100, random_state=42)
+model.fit(X_train, y_train)
+
+</pre>
+
+---
+
+#### Call Individual Feature Importance:
+-----------
+<pre>
+  def individual_feature_importance(model, dataset, y, selected_index):
+    Calculates the individual feature importance for a given instance in a dataset using a pre-trained machine learning model.
+
+    Parameters
+    ----------
+    model : object
+        The pre-trained machine learning model used for making predictions.
+    dataset : pd.DataFrame
+        The feature dataset containing the instance to be explained.
+    y : np.ndarray or pd.Series
+        The target variable corresponding to the dataset.
+        - For classification: Class labels.
+        - For regression: Continuous values.
+    selected_index : int
+        The index of the instance in the dataset to be explained.
+
+    Returns
+    -------
+    app : object
+        A visual explanation of the selected instance’s prediction, highlighting feature contributions to prediction changes.
+  
+</pre>
+##### Generate Explanation and View Via Interactive App
+
+<pre>
+app = individual_feature_importance(model, X_test, model.predict(X_test), 0)
+app.run()  # This will start a web server for visualizing feature importance
+</pre>
+
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
