@@ -5,8 +5,8 @@ import requests
 import random
 
 # Replace this URL with the Google Cloud Function URL you get after deployment
-#CLOUD_FUNCTION_URL_MODEL_EXPLANATION = "https://europe-west2-decima2.cloudfunctions.net/call_private_model_explanation"
-#CLOUD_FUNCTION_URL_GROUPED_EXPLANATION = "https://europe-west2-decima2.cloudfunctions.net/call_private_grouped_explanation"
+CLOUD_FUNCTION_URL_MODEL_EXPLANATION = "https://europe-west2-decima2.cloudfunctions.net/call_private_model_explanation"
+CLOUD_FUNCTION_URL_GROUPED_EXPLANATION = "https://europe-west2-decima2.cloudfunctions.net/call_private_grouped_explanation"
 
 
 #CLOUD_FUNCTION_URL_MODEL_EXPLANATION = "https://model-explanation-api-gateway-1y81cisz.nw.gateway.dev/call_private_model_explanation"
